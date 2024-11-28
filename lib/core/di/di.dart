@@ -9,7 +9,7 @@ import 'package:get_it/get_it.dart';
 
 final di = GetIt.instance;
 
-Future<void> init() async{
+Future<void> initDi() async{
 
   // globals
   di.registerSingleton<DioClient>(DioClient());

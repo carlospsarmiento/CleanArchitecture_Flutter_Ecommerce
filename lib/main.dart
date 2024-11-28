@@ -1,8 +1,12 @@
+import 'package:app_flutter/core/di/di.dart';
+import 'package:app_flutter/features/auth/presentation/bloc/auth_cubit.dart';
 import 'package:app_flutter/features/auth/presentation/screens/login_screen.dart';
 import 'package:app_flutter/shared/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
+void main() async{
+  await initDi();
   runApp(const MyApp());
 }
 
@@ -11,23 +15,28 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      /*
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.deepPurple,
-            brightness: Brightness.light
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (BuildContext context) => di<AuthCubit>())
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.lightTheme,
+        home: LoginScreen()
+        /*
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.deepPurple,
+              brightness: Brightness.light
+          ),
+          useMaterial3: true,
+          brightness: Brightness.light
         ),
-        useMaterial3: true,
-        brightness: Brightness.light
+        */
+        //darkTheme: AppTheme.darkTheme,
+        //themeMode: ThemeMode.system,
       ),
-      */
-      theme: AppTheme.lightTheme,
-      //darkTheme: AppTheme.darkTheme,
-      //themeMode: ThemeMode.system,
-      home: LoginScreen()
     );
   }
 }

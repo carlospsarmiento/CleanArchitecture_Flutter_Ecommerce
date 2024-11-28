@@ -1,4 +1,8 @@
+import 'package:app_flutter/features/auth/presentation/bloc/auth_cubit.dart';
+import 'package:app_flutter/features/auth/presentation/bloc/auth_state.dart';
+import 'package:app_flutter/shared/presentation/widgets/custom_progress_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -12,42 +16,62 @@ class LoginScreen extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                children: [
-                  /*
-                  FilledButton(
-                      onPressed: (){},
-                      child: Text("FilledButton")
-                  ),
-                  OutlinedButton(
-                      onPressed: (){},
-                      child: Text("OutlinedButton")),
-                  ElevatedButton(
-                    onPressed: (){},
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white70,
-                        elevation: 1
+        body: BlocListener<AuthCubit,AuthState>(
+          listener: (context, state) => _listenAuthCubit(context,state),
+          child: SafeArea(
+            child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Column(
+                      children: [
+                        SizedBox(height: screenHeight * 0.1),
+                        _widgetLogo(),
+                        SizedBox(height: screenHeight * 0.1),
+                        _widgetTitle(context),
+                        SizedBox(height: screenHeight * 0.05),
+                        _widgetForm(context)
+                      ],
                     ),
-                    child: Text("ElevatedButton"),
                   ),
-                  Switch(
-                      value: false,
-                      onChanged: (value){}),
-                  */
-                  SizedBox(height: screenHeight * 0.1),
-                  _widgetLogo(),
-                  SizedBox(height: screenHeight * 0.1),
-                  _widgetTitle(context),
-                  SizedBox(height: screenHeight * 0.05),
-                  _widgetForm(context)
-                ],
-              ),
-            )
+                )
+            ),
         ),
+    );
+  }
+
+  void _listenAuthCubit(BuildContext context, AuthState state){
+    if(state is AuthLoginLoadingState){
+      // Mostramos un indicador de carga
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) => CustomProgressDialog(message: "Ingresando...")
       );
+      /*
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) => Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(
+                    color: Theme.of(context).colorScheme.inversePrimary
+                ),
+                SizedBox(height: 16),
+                Text(
+                  "Cargando...",
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.inversePrimary
+                  )
+                )
+              ],
+            ),
+          )
+      );
+      */
+    }
   }
 
   Widget _widgetLogo(){
@@ -125,35 +149,17 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _widgetButtonSignIn(BuildContext context){
-    /*
-    return ElevatedButton(
-        onPressed: () {
-          if (_formKey.currentState!.validate()) {
-            _formKey.currentState!.save();
-            // Navigate to the main screen
-          }
-        },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Theme.of(context).colorScheme.onPrimary,
-        minimumSize: const Size(double.infinity,52)
-      ),
-      child: Text("Ingresar")
-    );
-    */
     return SizedBox(
       width: MediaQuery.of(context).size.width ,
-      child: ElevatedButton(
+      child: FilledButton(
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               _formKey.currentState!.save();
-              // Navigate to the main screen
+
+              // usamos el cubit para iniciar sesion
+              context.read<AuthCubit>().login("abc", "123");
             }
           },
-          style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              foregroundColor: Theme.of(context).colorScheme.onPrimary,
-          ),
           child: Text("Ingresar")
       ),
     );
@@ -188,7 +194,8 @@ class LoginScreen extends StatelessWidget {
             TextSpan(
               text: "Registrate",
               style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.w500
               ),
             ),
           ],
@@ -199,10 +206,9 @@ class LoginScreen extends StatelessWidget {
             .copyWith(
           color: Theme.of(context)
               .textTheme
-              .bodyLarge!
+              .bodyMedium!
               .color!
-              .withOpacity(0.64),
-          fontWeight: FontWeight.bold
+              .withOpacity(0.6)
         ),
       ),
     );

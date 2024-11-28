@@ -6,7 +6,7 @@ class AppTheme {
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
-    colorSchemeSeed: Colors.green,
+    colorSchemeSeed: Colors.purple,
     /*
     colorScheme: ColorScheme.fromSeed(
         seedColor: Colors.green,
