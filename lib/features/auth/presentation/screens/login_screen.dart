@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -7,44 +8,61 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
+        child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                 children: [
-                  SizedBox(height: constraints.maxHeight * 0.1),
+                  /*
+                  FilledButton(
+                      onPressed: (){},
+                      child: Text("FilledButton")
+                  ),
+                  OutlinedButton(
+                      onPressed: (){},
+                      child: Text("OutlinedButton")),
+                  ElevatedButton(
+                    onPressed: (){},
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white70,
+                        elevation: 1
+                    ),
+                    child: Text("ElevatedButton"),
+                  ),
+                  Switch(
+                      value: false,
+                      onChanged: (value){}),
+                  */
+                  SizedBox(height: screenHeight * 0.1),
                   _widgetLogo(),
-                  SizedBox(height: constraints.maxHeight * 0.1),
+                  SizedBox(height: screenHeight * 0.1),
                   _widgetTitle(context),
-                  SizedBox(height: constraints.maxHeight * 0.05),
+                  SizedBox(height: screenHeight * 0.05),
                   _widgetForm(context)
                 ],
               ),
-            );
-          },
+            )
         ),
-      ),
-    );
+      );
   }
 
   Widget _widgetLogo(){
-    return Image.network(
-      "https://i.postimg.cc/nz0YBQcH/Logo-light.png",
-      height: 100,
+    return SvgPicture.asset(
+      "assets/svg/img_login.svg",
+      height: 170
     );
   }
 
   Widget _widgetTitle(BuildContext context){
     return Text(
-      "Sign In",
-      style: Theme.of(context)
-          .textTheme
-          .headlineSmall!
-          .copyWith(fontWeight: FontWeight.bold),
+        "Login",
+        style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+         fontWeight: FontWeight.bold
+        ),
     );
   }
 
@@ -53,116 +71,140 @@ class LoginScreen extends StatelessWidget {
       key: _formKey,
       child: Column(
         children: [
-          _widgetTextFieldUsername(),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: _widgetTextFieldPassword()
-          ),
-          _widgetButtonSignIn(),
+          _widgetTextFieldUsername(context),
           const SizedBox(height: 16.0),
-          TextButton(
-            onPressed: () {},
-            child: Text(
-              'Forgot Password?',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(
-                color: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .color!
-                    .withOpacity(0.64),
-              ),
-            ),
-          ),
-          TextButton(
-            onPressed: () {},
-            child: Text.rich(
-              const TextSpan(
-                text: "Don’t have an account? ",
-                children: [
-                  TextSpan(
-                    text: "Sign Up",
-                    style: TextStyle(color: Color(0xFF00BF6D)),
-                  ),
-                ],
-              ),
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(
-                color: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .color!
-                    .withOpacity(0.64),
-              ),
-            ),
-          ),
+          _widgetTextFieldPassword(context),
+          const SizedBox(height: 16.0),
+          _widgetButtonSignIn(context),
+          const SizedBox(height: 16.0),
+          _widgetTextButtonForgotPassword(context),
+          _widgetTextButtonSignUp(context)
         ],
       ),
     );
   }
 
-  Widget _widgetTextFieldUsername(){
+  Widget _widgetTextFieldUsername(BuildContext context){
     return TextFormField(
-      decoration: const InputDecoration(
-        hintText: 'Usuario',
-        filled: true,
-        fillColor: Color(0xFFF5FCF9),
-        contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16.0 * 1.5, vertical: 16.0),
-        border: const OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius:
-          BorderRadius.all(Radius.circular(50)),
-        ),
-      ),
-      keyboardType: TextInputType.phone,
-      onSaved: (phone) {
-        // Save it
-      },
-    );
-  }
-
-  Widget _widgetTextFieldPassword(){
-    return TextFormField(
-      obscureText: true,
-      decoration: const InputDecoration(
-        hintText: 'Contraseña',
-        filled: true,
-        fillColor: Color(0xFFF5FCF9),
-        contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16.0 * 1.5, vertical: 16.0),
+      decoration: InputDecoration(
+        hintText: "Usuario",
+        contentPadding: EdgeInsets.all(16),
         border: OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius:
-          BorderRadius.all(Radius.circular(50)),
+          borderRadius: BorderRadius.circular(24),
+        ),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(24),
+            borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.primary
+            )
         ),
       ),
-      onSaved: (passaword) {
-        // Save it
+      onSaved: (username) {
       },
     );
   }
 
-  Widget _widgetButtonSignIn(){
-    return ElevatedButton(
-      onPressed: () {
-        if (_formKey.currentState!.validate()) {
-          _formKey.currentState!.save();
-          // Navigate to the main screen
-        }
-      },
-      style: ElevatedButton.styleFrom(
-        elevation: 0,
-        backgroundColor: const Color(0xFF00BF6D),
-        foregroundColor: Colors.white,
-        minimumSize: const Size(double.infinity, 48),
-        shape: const StadiumBorder(),
+  Widget _widgetTextFieldPassword(BuildContext context){
+    return TextFormField(
+      decoration: InputDecoration(
+        hintText: "Contraseña",
+        contentPadding: EdgeInsets.all(16),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(24),
+        ),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(24),
+            borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.primary
+            )
+        ),
       ),
-      child: const Text("Ingresar"),
+      onSaved: (username) {
+      },
+    );
+  }
+
+  Widget _widgetButtonSignIn(BuildContext context){
+    /*
+    return ElevatedButton(
+        onPressed: () {
+          if (_formKey.currentState!.validate()) {
+            _formKey.currentState!.save();
+            // Navigate to the main screen
+          }
+        },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Theme.of(context).colorScheme.onPrimary,
+        minimumSize: const Size(double.infinity,52)
+      ),
+      child: Text("Ingresar")
+    );
+    */
+    return SizedBox(
+      width: MediaQuery.of(context).size.width ,
+      child: ElevatedButton(
+          onPressed: () {
+            if (_formKey.currentState!.validate()) {
+              _formKey.currentState!.save();
+              // Navigate to the main screen
+            }
+          },
+          style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          ),
+          child: Text("Ingresar")
+      ),
+    );
+  }
+
+  Widget _widgetTextButtonForgotPassword(BuildContext context){
+    return TextButton(
+        onPressed: (){},
+        child: Text(
+          "¿Olvidaste tu contraseña?",
+          style: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+              .copyWith(
+                  color: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .color!
+                      .withOpacity(0.6)
+              )
+        )
+    );
+  }
+
+  Widget _widgetTextButtonSignUp(BuildContext context){
+    return TextButton(
+      onPressed: () {},
+      child: Text.rich(
+         TextSpan(
+          text: "¿No tienes una cuenta? ",
+          children: [
+            TextSpan(
+              text: "Registrate",
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary
+              ),
+            ),
+          ],
+        ),
+        style: Theme.of(context)
+            .textTheme
+            .bodyMedium!
+            .copyWith(
+          color: Theme.of(context)
+              .textTheme
+              .bodyLarge!
+              .color!
+              .withOpacity(0.64),
+          fontWeight: FontWeight.bold
+        ),
+      ),
     );
   }
 }
