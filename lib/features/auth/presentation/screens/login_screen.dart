@@ -1,6 +1,7 @@
 import 'package:app_flutter/features/auth/presentation/bloc/auth_cubit.dart';
 import 'package:app_flutter/features/auth/presentation/bloc/auth_state.dart';
 import 'package:app_flutter/shared/presentation/widgets/custom_progress_dialog.dart';
+import 'package:app_flutter/shared/presentation/widgets/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -42,35 +43,21 @@ class LoginScreen extends StatelessWidget {
 
   void _listenAuthCubit(BuildContext context, AuthState state){
     if(state is AuthLoginLoadingState){
-      // Mostramos un indicador de carga
       showDialog(
           context: context,
           barrierDismissible: false,
-          builder: (BuildContext context) => CustomProgressDialog(message: "Ingresando...")
+          builder: (BuildContext context) => CustomProgressDialog(message: "Iniciando sesión...")
       );
-      /*
-      showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) => Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircularProgressIndicator(
-                    color: Theme.of(context).colorScheme.inversePrimary
-                ),
-                SizedBox(height: 16),
-                Text(
-                  "Cargando...",
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.inversePrimary
-                  )
-                )
-              ],
-            ),
-          )
-      );
-      */
+    }
+
+    if (state is AuthLoginSuccessState) {
+      Navigator.of(context).pop();
+      // Realiza las acciones necesarias en el caso de éxito
+    }
+
+    if (state is AuthLoginFailState) {
+      Navigator.of(context).pop();
+      CustomSnackBar.show(context, message: state.message);
     }
   }
 

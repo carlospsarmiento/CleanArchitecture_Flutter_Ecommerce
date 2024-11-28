@@ -10,7 +10,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
 
   @override
   Future<UserModel> login(String username, String password) async{
-    final result = await _client.dio.get("/login");
+    final result = await _client.dio.get("/api/users/getAll");
     return UserModel.fromJson(result.data);
   }
 }

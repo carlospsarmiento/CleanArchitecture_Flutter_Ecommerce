@@ -5,9 +5,9 @@ class DioClient{
 
    DioClient(): _dio = Dio(
      BaseOptions(
-       baseUrl: "",
+       baseUrl: "https://wdqjjd59-3000.brs.devtunnels.ms",
        connectTimeout: Duration(seconds: 5),
-       receiveTimeout: Duration(seconds: 3)
+       receiveTimeout: Duration(seconds: 3),
      )
    );
 
