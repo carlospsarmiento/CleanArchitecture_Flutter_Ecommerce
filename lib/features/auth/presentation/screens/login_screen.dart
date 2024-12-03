@@ -8,6 +8,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   LoginScreen({super.key});
 
@@ -31,7 +33,8 @@ class LoginScreen extends StatelessWidget {
                         SizedBox(height: screenHeight * 0.1),
                         _widgetTitle(context),
                         SizedBox(height: screenHeight * 0.05),
-                        _widgetForm(context)
+                        //_widgetForm(context)
+                        _builderForm()
                       ],
                     ),
                   ),
@@ -59,6 +62,14 @@ class LoginScreen extends StatelessWidget {
       Navigator.of(context).pop();
       CustomSnackBar.show(context, message: state.message);
     }
+  }
+
+  Widget _builderForm(){
+    return BlocBuilder<AuthCubit,AuthState>(
+        builder: (context, authState){
+          return _widgetForm(context);
+        }
+    );
   }
 
   Widget _widgetLogo(){
@@ -96,7 +107,9 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _widgetTextFieldUsername(BuildContext context){
+    final authCubit = context.read<AuthCubit>();
     return TextFormField(
+      controller: usernameController,
       decoration: InputDecoration(
         hintText: "Usuario",
         contentPadding: EdgeInsets.all(16),
@@ -109,14 +122,29 @@ class LoginScreen extends StatelessWidget {
                 color: Theme.of(context).colorScheme.primary
             )
         ),
+        errorText: authCubit.usernameError
+        //  errorText: authState is AuthLoginValidationFailState ? authState.usernameError : null,
       ),
-      onSaved: (username) {
+      //onChanged: (value){
+      //  authCubit.validateUsername(value);
+      //},
+      //onSaved: (username) {
+      //},
+
+      onChanged: (value) => authCubit.validateUsername(value),
+      validator: (value) {
+        authCubit.validateUsername(value);
+        return authCubit.usernameError;
       },
+
     );
   }
 
   Widget _widgetTextFieldPassword(BuildContext context){
+    final authCubit = context.read<AuthCubit>();
     return TextFormField(
+      controller: passwordController,
+      obscureText: true,
       decoration: InputDecoration(
         hintText: "Contraseña",
         contentPadding: EdgeInsets.all(16),
@@ -129,8 +157,12 @@ class LoginScreen extends StatelessWidget {
                 color: Theme.of(context).colorScheme.primary
             )
         ),
+        errorText: authCubit.passwordError
       ),
-      onSaved: (username) {
+      onChanged: (value) => authCubit.validatePassword(value),
+      validator: (value){
+        authCubit.validatePassword(value);
+        return authCubit.passwordError;
       },
     );
   }
@@ -141,10 +173,8 @@ class LoginScreen extends StatelessWidget {
       child: FilledButton(
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              _formKey.currentState!.save();
-
-              // usamos el cubit para iniciar sesion
-              context.read<AuthCubit>().login("abc", "123");
+              //_formKey.currentState!.save();
+              context.read<AuthCubit>().login(usernameController.text, passwordController.text);
             }
           },
           child: Text("Ingresar")

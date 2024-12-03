@@ -27,3 +27,13 @@ class AuthLoginFailState extends AuthState {
   @override
   List<Object?> get props => [message];
 }
+
+class AuthFieldValidationState extends AuthState {
+  final String? usernameError;
+  final String? passwordError;
+
+  AuthFieldValidationState({this.usernameError, this.passwordError});
+
+  @override
+  List<Object?> get props => [usernameError,passwordError];
+}

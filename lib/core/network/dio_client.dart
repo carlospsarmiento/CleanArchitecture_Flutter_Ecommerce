@@ -1,3 +1,4 @@
+import 'package:app_flutter/core/network/api_endpoints.dart';
 import 'package:dio/dio.dart';
 
 class DioClient{
@@ -5,9 +6,16 @@ class DioClient{
 
    DioClient(): _dio = Dio(
      BaseOptions(
-       baseUrl: "https://wdqjjd59-3000.brs.devtunnels.ms",
-       connectTimeout: Duration(seconds: 5),
-       receiveTimeout: Duration(seconds: 3),
+       baseUrl: ApiEndpoints.baseUrl,
+       headers: {
+         'Content-Type': 'application/json',
+         'Accept': 'application/json'
+       },
+       connectTimeout: Duration(seconds: 6),
+       receiveTimeout: Duration(seconds: 6),
+       validateStatus: (int? status) {
+          return status! > 0;
+      }
      )
    );
 
