@@ -4,7 +4,7 @@ class User{
   String lastname;
   String email;
   String phone;
-  String password;
+  String? password;
   String? sessionToken;
 
   User({

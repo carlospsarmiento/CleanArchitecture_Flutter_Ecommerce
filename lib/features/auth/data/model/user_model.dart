@@ -6,7 +6,7 @@ class UserModel{
   String lastname;
   String email;
   String phone;
-  String password;
+  String? password;
   String? sessionToken;
 
   UserModel({
@@ -19,8 +19,8 @@ class UserModel{
     this.sessionToken
   });
 
-  factory UserModel.fromJson(Map<String,dynamic> json) =>
-    UserModel(
+  factory UserModel.fromJson(Map<String,dynamic> json) {
+    return UserModel(
       id: json["id"],
       name: json["name"],
       lastname: json["lastname"],
@@ -29,6 +29,7 @@ class UserModel{
       password: json["password"],
       sessionToken: json["session_token"]
     );
+  }
 
   Map<String,dynamic> toJson() => {
     "id": id,

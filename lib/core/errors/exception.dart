@@ -7,3 +7,9 @@ class HttpException implements Exception {
 
   HttpException({this.statusCode});
 }
+
+class ApiException implements Exception {
+  final String? message;
+
+  ApiException({this.message});
+}

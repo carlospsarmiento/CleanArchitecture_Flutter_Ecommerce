@@ -1,7 +1,7 @@
 import 'package:app_flutter/core/di/di.dart';
 import 'package:app_flutter/features/auth/presentation/bloc/auth_cubit.dart';
 import 'package:app_flutter/features/auth/presentation/screens/login_screen.dart';
-import 'package:app_flutter/features/ecommerce/catalog/presentation/screens/catalog_list_screen.dart';
+import 'package:app_flutter/features/ecommerce/presentation/screens/catalog_list_screen.dart';
 import 'package:app_flutter/shared/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
