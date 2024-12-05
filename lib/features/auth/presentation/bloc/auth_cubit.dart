@@ -58,9 +58,20 @@ class AuthCubit extends Cubit<AuthState>{
     */
 
     usernameError = Validators.validateEmail(username);
+    if(state is AuthFieldValidationState){
+        final currentState = state as AuthFieldValidationState;
+        emit(currentState.copyWith(usernameError: usernameError));
+    }
+    else{
+      emit(AuthFieldValidationState(
+          usernameError: usernameError,
+          passwordError: passwordError));
+    }
+    /*
     emit(AuthFieldValidationState(
         usernameError: usernameError,
         passwordError: passwordError));
+     */
   }
 
   void validatePassword(String? password) {
@@ -69,8 +80,21 @@ class AuthCubit extends Cubit<AuthState>{
     } else {
       passwordError = null;
     }
+
+    /*
     emit(AuthFieldValidationState(
         usernameError: usernameError,
         passwordError: passwordError));
+     */
+
+    if(state is AuthFieldValidationState){
+      final currentState = state as AuthFieldValidationState;
+      emit(currentState.copyWith(passwordError: passwordError));
+    }
+    else{
+      emit(AuthFieldValidationState(
+          usernameError: usernameError,
+          passwordError: passwordError));
+    }
   }
 }

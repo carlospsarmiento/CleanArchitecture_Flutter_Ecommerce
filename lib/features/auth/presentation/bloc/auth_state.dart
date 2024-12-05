@@ -34,6 +34,16 @@ class AuthFieldValidationState extends AuthState {
 
   AuthFieldValidationState({this.usernameError, this.passwordError});
 
+  AuthFieldValidationState copyWith({
+    String? usernameError,
+    String? passwordError
+  }){
+    return AuthFieldValidationState(
+      usernameError: usernameError,
+      passwordError: passwordError
+    );
+  }
+
   @override
   List<Object?> get props => [usernameError,passwordError];
 }

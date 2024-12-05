@@ -56,6 +56,7 @@ class LoginScreen extends StatelessWidget {
     if (state is AuthLoginSuccessState) {
       Navigator.of(context).pop();
       // Realiza las acciones necesarias en el caso de éxito
+      Navigator.pushNamedAndRemoveUntil(context, 'ecommerce/catalog/list', (route) => false);
     }
 
     if (state is AuthLoginFailState) {
@@ -122,7 +123,7 @@ class LoginScreen extends StatelessWidget {
                 color: Theme.of(context).colorScheme.primary
             )
         ),
-        errorText: authCubit.usernameError
+        //errorText: authCubit.usernameError
         //  errorText: authState is AuthLoginValidationFailState ? authState.usernameError : null,
       ),
       //onChanged: (value){
@@ -131,12 +132,13 @@ class LoginScreen extends StatelessWidget {
       //onSaved: (username) {
       //},
 
+      /*
       onChanged: (value) => authCubit.validateUsername(value),
       validator: (value) {
         authCubit.validateUsername(value);
         return authCubit.usernameError;
       },
-
+      */
     );
   }
 
@@ -157,13 +159,15 @@ class LoginScreen extends StatelessWidget {
                 color: Theme.of(context).colorScheme.primary
             )
         ),
-        errorText: authCubit.passwordError
+        //errorText: authCubit.passwordError
       ),
+      /*
       onChanged: (value) => authCubit.validatePassword(value),
       validator: (value){
         authCubit.validatePassword(value);
         return authCubit.passwordError;
       },
+      */
     );
   }
 
@@ -172,10 +176,10 @@ class LoginScreen extends StatelessWidget {
       width: MediaQuery.of(context).size.width ,
       child: FilledButton(
           onPressed: () {
-            if (_formKey.currentState!.validate()) {
+            //if (_formKey.currentState!.validate()) {
               //_formKey.currentState!.save();
               context.read<AuthCubit>().login(usernameController.text, passwordController.text);
-            }
+            //}
           },
           child: Text("Ingresar")
       ),
