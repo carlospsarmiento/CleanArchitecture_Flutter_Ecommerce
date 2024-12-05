@@ -29,7 +29,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
 
       final response = await _client.dio.post(ApiEndpoints.login,data: data);
 
-      // Validamos el código de estado
       if (response.statusCode != 200) {
         throw HttpException(statusCode: response.statusCode);
       }

@@ -4,7 +4,6 @@ import 'package:app_flutter/features/auth/data/datasource/auth_remote_datasource
 import 'package:app_flutter/features/auth/domain/entity/user.dart';
 import 'package:app_flutter/features/auth/domain/repository/auth_repository.dart';
 import 'package:dartz/dartz.dart';
-import 'package:dio/dio.dart';
 
 class AuthRepositoryImpl implements AuthRepository{
 
@@ -20,7 +19,11 @@ class AuthRepositoryImpl implements AuthRepository{
     } on NetworkException {
       return Left(NetworkFailure(message: "No se pudo conectar con el servidor. Verifica tu conexión."));
     } on HttpException catch (e) {
-      return Left(HttpFailure(message: "Error del servidor (${e.statusCode}). Inténtalo más tarde."));
+      if(e.statusCode == 401) {
+        return Left(HttpFailure(message: "La contraseña es incorrecta"));
+      } else {
+        return Left(HttpFailure(message: "Error del servidor (${e.statusCode}). Inténtalo más tarde."));
+      }
     } on ParseException {
       return Left(ParseFailure(message: "Ocurrió un error al procesar la respuesta del servidor."));
     } catch (error) {
