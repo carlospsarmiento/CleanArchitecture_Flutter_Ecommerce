@@ -6,8 +6,11 @@ abstract class AuthState extends Equatable {
   List<Object?> get props => [];
 }
 
+// INITIAL STATE
 class AuthInitialState extends AuthState {}
 
+
+// LOGIN USER
 class AuthLoginLoadingState extends AuthState {}
 
 class AuthLoginSuccessState extends AuthState {
@@ -47,3 +50,12 @@ class AuthFieldValidationState extends AuthState {
   @override
   List<Object?> get props => [usernameError,passwordError];
 }
+
+// CHECK USER LOGGED
+class AuthCheckUserLoggedLoadingState extends AuthState {}
+
+class AuthCheckUserLoggedSuccessState extends AuthState {}
+
+class AuthCheckUserLoggedFailState extends AuthState {}
+
+

@@ -3,7 +3,6 @@ import 'package:app_flutter/core/preferences/app_preferences.dart';
 import 'package:app_flutter/core/utils/validators.dart';
 import 'package:app_flutter/features/auth/domain/usecase/login_user.dart';
 import 'package:app_flutter/features/auth/presentation/bloc/auth_state.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthCubit extends Cubit<AuthState>{
@@ -23,14 +22,6 @@ class AuthCubit extends Cubit<AuthState>{
   Future<void> login(String username, String password) async{
     emit(AuthLoginLoadingState());
     final result = await _loginUser.call(username, password);
-
-    /*
-    result.fold((l){
-      emit(AuthLoginFailState(message: "Ocurrió un error en el login"));
-    }, (r){
-      emit(AuthLoginSuccessState(user: r));
-    });
-    */
     result.fold(
       (failure) {
         String errorMessage = "Ocurrió un error en el login.";
@@ -53,6 +44,10 @@ class AuthCubit extends Cubit<AuthState>{
     );
   }
 
+  Future<void> checkUserLogged() async{
+
+  }
+
   void validateUsername(String? username) {
     /*
     if (username == null || username.isEmpty) {
@@ -61,7 +56,6 @@ class AuthCubit extends Cubit<AuthState>{
       usernameError = null;
     }
     */
-
     usernameError = Validators.validateEmail(username);
     if(state is AuthFieldValidationState){
         final currentState = state as AuthFieldValidationState;
@@ -72,11 +66,6 @@ class AuthCubit extends Cubit<AuthState>{
           usernameError: usernameError,
           passwordError: passwordError));
     }
-    /*
-    emit(AuthFieldValidationState(
-        usernameError: usernameError,
-        passwordError: passwordError));
-     */
   }
 
   void validatePassword(String? password) {
@@ -85,13 +74,6 @@ class AuthCubit extends Cubit<AuthState>{
     } else {
       passwordError = null;
     }
-
-    /*
-    emit(AuthFieldValidationState(
-        usernameError: usernameError,
-        passwordError: passwordError));
-     */
-
     if(state is AuthFieldValidationState){
       final currentState = state as AuthFieldValidationState;
       emit(currentState.copyWith(passwordError: passwordError));
