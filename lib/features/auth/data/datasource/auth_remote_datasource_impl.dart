@@ -3,7 +3,7 @@ import 'package:app_flutter/core/network/api_endpoints.dart';
 import 'package:app_flutter/core/network/api_response.dart';
 import 'package:app_flutter/core/network/dio_client.dart';
 import 'package:app_flutter/features/auth/data/datasource/auth_remote_datasource.dart';
-import 'package:app_flutter/features/auth/data/model/user_model.dart';
+import 'package:app_flutter/shared/data/model/user_model.dart';
 import 'package:dio/dio.dart';
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{

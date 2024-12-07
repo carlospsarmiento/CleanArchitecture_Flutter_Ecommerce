@@ -54,6 +54,9 @@ dependencies:
   # Load SVG
   flutter_svg: ^2.0.15
 
+  # session storage
+  shared_preferences: ^2.3.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

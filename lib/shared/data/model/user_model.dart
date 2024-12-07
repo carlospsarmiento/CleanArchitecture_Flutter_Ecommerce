@@ -1,4 +1,4 @@
-import 'package:app_flutter/features/auth/domain/entity/user.dart';
+import 'package:app_flutter/shared/domain/entity/user.dart';
 
 class UserModel{
   String? id;

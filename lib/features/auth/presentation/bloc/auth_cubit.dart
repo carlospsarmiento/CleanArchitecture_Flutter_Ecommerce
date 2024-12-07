@@ -1,4 +1,5 @@
 import 'package:app_flutter/core/errors/failure.dart';
+import 'package:app_flutter/core/preferences/app_preferences.dart';
 import 'package:app_flutter/core/utils/validators.dart';
 import 'package:app_flutter/features/auth/domain/usecase/login_user.dart';
 import 'package:app_flutter/features/auth/presentation/bloc/auth_state.dart';
@@ -10,11 +11,14 @@ class AuthCubit extends Cubit<AuthState>{
   // UseCases
   final LoginUser _loginUser;
 
+  // Preferences
+  final AppPreferences _appPreferences;
+
   // Variables
   String? usernameError;
   String? passwordError;
 
-  AuthCubit(this._loginUser):super(AuthInitialState());
+  AuthCubit(this._loginUser, this._appPreferences):super(AuthInitialState());
 
   Future<void> login(String username, String password) async{
     emit(AuthLoginLoadingState());
@@ -42,7 +46,8 @@ class AuthCubit extends Cubit<AuthState>{
         }
         emit(AuthLoginFailState(message: errorMessage));
       },
-      (user) {
+      (user) async {
+        await _appPreferences.saveUser(user);
         emit(AuthLoginSuccessState(user: user));
       },
     );

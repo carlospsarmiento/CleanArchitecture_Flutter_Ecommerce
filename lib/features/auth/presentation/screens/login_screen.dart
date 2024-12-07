@@ -55,7 +55,6 @@ class LoginScreen extends StatelessWidget {
 
     if (state is AuthLoginSuccessState) {
       Navigator.of(context).pop();
-      // Realiza las acciones necesarias en el caso de éxito
       Navigator.pushNamedAndRemoveUntil(context, 'ecommerce/catalog/list', (route) => false);
     }
 

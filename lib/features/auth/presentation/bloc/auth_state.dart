@@ -1,4 +1,4 @@
-import 'package:app_flutter/features/auth/domain/entity/user.dart';
+import 'package:app_flutter/shared/domain/entity/user.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class AuthState extends Equatable {
