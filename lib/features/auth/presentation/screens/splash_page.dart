@@ -27,11 +27,16 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.red,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       body: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) => _listenAuthCubit(context,state),
         child: Center(
-          child: CircularProgressIndicator(),
+          child: Text(
+              "Ecommerce App",
+              style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                color: Theme.of(context).colorScheme.inversePrimary
+              ),
+          ),
         )
       ),
     );
