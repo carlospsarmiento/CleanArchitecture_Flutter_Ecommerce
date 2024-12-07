@@ -15,8 +15,13 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    final authCubit = context.read<AuthCubit>();
-    authCubit.checkUserLogged();
+    final context = this.context;
+    Future.delayed(Duration(seconds: 2),(){
+      if(context.mounted){
+        final authCubit = context.read<AuthCubit>();
+        authCubit.checkUserLogged();
+      }
+    });
   }
 
   @override
@@ -25,27 +30,19 @@ class _SplashPageState extends State<SplashPage> {
       backgroundColor: Colors.red,
       body: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) => _listenAuthCubit(context,state),
-        child: Stack(
-          children: [
-            Center(
-              child: CircularProgressIndicator(),
-            ),
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 16,
-              child: Align(
-                alignment: Alignment.center,
-                child: CircularProgressIndicator(),
-              ),
-            )
-          ],
+        child: Center(
+          child: CircularProgressIndicator(),
         )
       ),
     );
   }
 
   void _listenAuthCubit(BuildContext context, AuthState state){
-
+    if(state is AuthCheckUserLoggedSuccessState){
+      Navigator.pushNamedAndRemoveUntil(context, 'ecommerce/catalog/list', (route) => false);
+    }
+    if(state is AuthCheckUserLoggedFailState){
+      Navigator.pushNamedAndRemoveUntil(context, 'ecommerce/catalog/list', (route) => false);
+    }
   }
 }

@@ -45,17 +45,16 @@ class AuthCubit extends Cubit<AuthState>{
   }
 
   Future<void> checkUserLogged() async{
-
+    final user = _appPreferences.getUser();
+    if(user!=null) {
+      emit(AuthCheckUserLoggedSuccessState());
+    }
+    else{
+      emit(AuthCheckUserLoggedFailState());
+    }
   }
 
   void validateUsername(String? username) {
-    /*
-    if (username == null || username.isEmpty) {
-      usernameError = 'El usuario no puede estar vacío';
-    } else {
-      usernameError = null;
-    }
-    */
     usernameError = Validators.validateEmail(username);
     if(state is AuthFieldValidationState){
         final currentState = state as AuthFieldValidationState;
@@ -66,6 +65,13 @@ class AuthCubit extends Cubit<AuthState>{
           usernameError: usernameError,
           passwordError: passwordError));
     }
+    /*
+    if (username == null || username.isEmpty) {
+      usernameError = 'El usuario no puede estar vacío';
+    } else {
+      usernameError = null;
+    }
+    */
   }
 
   void validatePassword(String? password) {
