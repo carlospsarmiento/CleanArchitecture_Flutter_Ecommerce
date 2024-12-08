@@ -1,11 +1,3 @@
-/*
-abstract class Failure{}
-
-class ServerFailure extends Failure{}
-
-class LocalFailure extends Failure{}
-*/
-
 /// Clase base para todas las fallas en el sistema.
 abstract class Failure {
   final String? message;
@@ -23,7 +15,7 @@ class HttpFailure extends Failure {
   final int? statusCode;
 
   const HttpFailure({String? message, this.statusCode})
-      : super(message: message ?? "Ocurrió un error del servidor.");
+      : super(message: message ?? "Ocurrió un error en el servidor.");
 }
 
 /// Falla causada dentro de la API.

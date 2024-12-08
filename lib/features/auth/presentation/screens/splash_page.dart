@@ -1,5 +1,5 @@
-import 'package:app_flutter/features/auth/presentation/bloc/auth_cubit.dart';
-import 'package:app_flutter/features/auth/presentation/bloc/auth_state.dart';
+import 'package:app_flutter/shared/presentation/bloc/auth_cubit.dart';
+import 'package:app_flutter/shared/presentation/bloc/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -47,7 +47,7 @@ class _SplashPageState extends State<SplashPage> {
       Navigator.pushNamedAndRemoveUntil(context, 'ecommerce/catalog/list', (route) => false);
     }
     if(state is AuthCheckUserLoggedFailState){
-      Navigator.pushNamedAndRemoveUntil(context, 'ecommerce/catalog/list', (route) => false);
+      Navigator.pushNamedAndRemoveUntil(context, 'auth/login', (route) => false);
     }
   }
 }

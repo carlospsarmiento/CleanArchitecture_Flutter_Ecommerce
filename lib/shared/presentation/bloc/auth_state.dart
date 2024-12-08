@@ -58,4 +58,25 @@ class AuthCheckUserLoggedSuccessState extends AuthState {}
 
 class AuthCheckUserLoggedFailState extends AuthState {}
 
+// LOGOUT USER
+class AuthLogoutLoadingState extends AuthState {}
+
+class AuthLogoutSuccessState extends AuthState {
+  final bool loggedOut;
+
+  AuthLogoutSuccessState({required this.loggedOut});
+
+  @override
+  List<Object> get props => [loggedOut];
+}
+
+class AuthLogoutFailState extends AuthState {
+  final String message;
+
+  AuthLogoutFailState({required this.message});
+
+  @override
+  List<Object?> get props => [message];
+}
+
 

@@ -1,5 +1,5 @@
-import 'package:app_flutter/features/auth/presentation/bloc/auth_cubit.dart';
-import 'package:app_flutter/features/auth/presentation/bloc/auth_state.dart';
+import 'package:app_flutter/shared/presentation/bloc/auth_cubit.dart';
+import 'package:app_flutter/shared/presentation/bloc/auth_state.dart';
 import 'package:app_flutter/shared/presentation/widgets/custom_progress_dialog.dart';
 import 'package:app_flutter/shared/presentation/widgets/custom_snackbar.dart';
 import 'package:flutter/material.dart';

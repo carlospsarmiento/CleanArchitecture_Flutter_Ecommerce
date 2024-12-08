@@ -1,5 +1,5 @@
 import 'package:app_flutter/core/di/di.dart';
-import 'package:app_flutter/features/auth/presentation/bloc/auth_cubit.dart';
+import 'package:app_flutter/shared/presentation/bloc/auth_cubit.dart';
 import 'package:app_flutter/features/auth/presentation/screens/login_screen.dart';
 import 'package:app_flutter/features/auth/presentation/screens/splash_page.dart';
 import 'package:app_flutter/features/ecommerce/presentation/screens/catalog_list_screen.dart';

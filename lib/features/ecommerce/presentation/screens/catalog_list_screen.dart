@@ -1,4 +1,9 @@
+import 'package:app_flutter/shared/presentation/bloc/auth_cubit.dart';
+import 'package:app_flutter/shared/presentation/bloc/auth_state.dart';
+import 'package:app_flutter/shared/presentation/widgets/custom_progress_dialog.dart';
+import 'package:app_flutter/shared/presentation/widgets/custom_snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CatalogListScreen extends StatelessWidget {
   CatalogListScreen({super.key});
@@ -18,7 +23,7 @@ class CatalogListScreen extends StatelessWidget {
     ];
 
     return DefaultTabController(
-      length: 20,
+      length: 1,
       child: Scaffold(
         key: _scaffoldKey,
         appBar: PreferredSize(
@@ -29,16 +34,7 @@ class CatalogListScreen extends StatelessWidget {
             bottom: TabBar(
                 isScrollable: true,
                 tabs: [
-                  Tab(text: "Smartphone"),
-                  Tab(text: "Tablets"),
-                  Tab(text: "Laptos"),
-                  Tab(text: "Laptos"),
-                  Tab(text: "Laptos"),
-                  Tab(text: "Laptos"),
-                  Tab(text: "Laptos"),
-                  Tab(text: "Laptos"),
-                  Tab(text: "Laptos"),
-                  Tab(text: "Laptos"),
+                  Tab(text: "Smartphone")
                 ]
             ),
             flexibleSpace: Column(
@@ -52,26 +48,53 @@ class CatalogListScreen extends StatelessWidget {
           ),
         ),
         drawer: _widgetDrawer(context),
-        body: TabBarView(
-              children: [
-                // Primer Tab: Grid de productos
-                GridView.builder(
-                  padding: const EdgeInsets.all(16),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, // Número de columnas
-                    crossAxisSpacing: 16, // Espaciado horizontal
-                    mainAxisSpacing: 16, // Espaciado vertical
-                    childAspectRatio: 0.8, // Relación de aspecto para cada celda
+        body: MultiBlocListener(
+          listeners: [
+            BlocListener<AuthCubit,AuthState>(
+              listener: (context,state) =>  _listenAuthCubit(context,state),
+            )
+          ],
+          child: TabBarView(
+                children: [
+                  // Primer Tab: Grid de productos
+                  GridView.builder(
+                    padding: const EdgeInsets.all(16),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, // Número de columnas
+                      crossAxisSpacing: 16, // Espaciado horizontal
+                      mainAxisSpacing: 16, // Espaciado vertical
+                      childAspectRatio: 0.8, // Relación de aspecto para cada celda
+                    ),
+                    itemCount: products.length,
+                    itemBuilder: (context, index) {
+                      final product = products[index];
+                      return _widgetItemProduct(product);
+                    },
                   ),
-                  itemCount: products.length,
-                  itemBuilder: (context, index) {
-                    final product = products[index];
-                    return _widgetItemProduct(product);
-                  },
-                ),
-              ]),
+                ]),
+        ),
       ),
     );
+  }
+
+  void _listenAuthCubit(BuildContext context, AuthState state){
+    if(state is AuthLogoutLoadingState){
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) => CustomProgressDialog(message: "Cerrando sesión...")
+      );
+    }
+
+    if (state is AuthLogoutSuccessState) {
+      Navigator.of(context).pop();
+      Navigator.pushNamedAndRemoveUntil(context, 'auth/login', (route) => false);
+    }
+
+    if (state is AuthLogoutFailState) {
+      Navigator.of(context).pop();
+      CustomSnackBar.show(context, message: state.message);
+    }
   }
 
   Widget _widgetItemProduct(Map<String, String> product){
@@ -169,10 +192,12 @@ class CatalogListScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    /*
                     CircleAvatar(
                       radius: 30,
                       backgroundImage: AssetImage('assets/images/profile.jpg'),
                     ),
+                     */
                     SizedBox(height: 10),
                     Text(
                       'Usuario Demo',
@@ -235,7 +260,7 @@ class CatalogListScreen extends StatelessWidget {
           TextButton(
             onPressed: () {
               Navigator.pop(context);
-              //Navigator.pushReplacementNamed(context, '/login');
+              context.read<AuthCubit>().logout();
             },
             child: Text('Cerrar sesión'),
           ),

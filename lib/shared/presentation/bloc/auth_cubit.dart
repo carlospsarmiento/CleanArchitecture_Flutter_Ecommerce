@@ -2,13 +2,15 @@ import 'package:app_flutter/core/errors/failure.dart';
 import 'package:app_flutter/core/preferences/app_preferences.dart';
 import 'package:app_flutter/core/utils/validators.dart';
 import 'package:app_flutter/features/auth/domain/usecase/login_user.dart';
-import 'package:app_flutter/features/auth/presentation/bloc/auth_state.dart';
+import 'package:app_flutter/features/auth/domain/usecase/logout_user.dart';
+import 'package:app_flutter/shared/presentation/bloc/auth_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthCubit extends Cubit<AuthState>{
 
   // UseCases
   final LoginUser _loginUser;
+  final LogoutUser _logoutUser;
 
   // Preferences
   final AppPreferences _appPreferences;
@@ -17,7 +19,7 @@ class AuthCubit extends Cubit<AuthState>{
   String? usernameError;
   String? passwordError;
 
-  AuthCubit(this._loginUser, this._appPreferences):super(AuthInitialState());
+  AuthCubit(this._loginUser, this._appPreferences, this._logoutUser):super(AuthInitialState());
 
   Future<void> login(String username, String password) async{
     emit(AuthLoginLoadingState());
@@ -38,14 +40,27 @@ class AuthCubit extends Cubit<AuthState>{
         emit(AuthLoginFailState(message: errorMessage));
       },
       (user) async {
-        await _appPreferences.saveUser(user);
+        await _appPreferences.saveUserLogged(user);
         emit(AuthLoginSuccessState(user: user));
       },
     );
   }
 
+  Future<void> logout() async{
+    emit(AuthLogoutLoadingState());
+    final userLogged = _appPreferences.getUserLogged();
+    final result = await _logoutUser.call(userLogged!.id!);
+    result.fold(
+      (failure){
+        emit(AuthLogoutFailState(message: failure.message!));
+    },(loggedOut) async{
+        await _appPreferences.clearUser();
+        emit(AuthLogoutSuccessState(loggedOut: loggedOut));
+    });
+  }
+
   Future<void> checkUserLogged() async{
-    final user = _appPreferences.getUser();
+    final user = _appPreferences.getUserLogged();
     if(user!=null) {
       emit(AuthCheckUserLoggedSuccessState());
     }

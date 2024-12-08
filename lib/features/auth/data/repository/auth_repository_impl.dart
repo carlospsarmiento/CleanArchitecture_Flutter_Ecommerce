@@ -37,7 +37,19 @@ class AuthRepositoryImpl implements AuthRepository{
   }
 
   @override
-  Future<Either<Failure, bool>> logout(String id) {
-
+  Future<Either<Failure, bool>> logout(String id) async{
+    try{
+      final loggedAuth = await _authRemoteDataSource.logout(id);
+      return Right(loggedAuth);
+    }
+    on HttpException catch (e) {
+      return Left(HttpFailure(message: "Error del servidor (${e.statusCode}). Inténtalo más tarde."));
+    }
+    on ApiException catch(e){
+      return Left(ApiFailure(message: e.message));
+    }
+    catch (error) {
+      return Left(UnexpectedFailure(message: "Ocurrió un error inesperado."));
+    }
   }
 }

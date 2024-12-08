@@ -65,7 +65,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
           response.data, (responseData){
         return UserModel.fromJson(responseData);
       });
-      if (result.success && result.data != null) {
+      if (result.success) {
         return result.success;
       } else {
         throw ApiException(message: result.message);

@@ -11,12 +11,12 @@ class AppPreferences{
 
   AppPreferences(this._sharedPreferences);
 
-  Future<void> saveUser(User user) async {
+  Future<void> saveUserLogged(User user) async {
     final userJson = jsonEncode(UserMapper.toJson(user));
     await _sharedPreferences.setString(_keyUser, userJson);
   }
 
-  User? getUser() {
+  User? getUserLogged() {
     final userJson = _sharedPreferences.getString(_keyUser);
     if (userJson == null) return null;
     return UserMapper.fromJson(jsonDecode(userJson));
