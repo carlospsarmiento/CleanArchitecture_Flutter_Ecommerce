@@ -18,12 +18,17 @@ class NetworkFailure extends Failure {
   const NetworkFailure({String? message}) : super(message: message ?? "No se pudo conectar con el servidor. Verifica tu conexión.");
 }
 
-/// Falla causada por errores en las respuestas del servidor.
+/// Falla causada por errores en las respuestas HTTP del servidor.
 class HttpFailure extends Failure {
   final int? statusCode;
 
   const HttpFailure({String? message, this.statusCode})
       : super(message: message ?? "Ocurrió un error del servidor.");
+}
+
+/// Falla causada dentro de la API.
+class ApiFailure extends Failure {
+  const ApiFailure({String? message}) : super(message: message ?? "Ocurrió un error en el webservice.");
 }
 
 /// Falla causada por errores en el formato o parsing de datos.

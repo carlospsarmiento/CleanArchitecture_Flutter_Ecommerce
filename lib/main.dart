@@ -26,7 +26,6 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
-
         //home: LoginScreen()
         initialRoute: "auth/splash",
         routes: {

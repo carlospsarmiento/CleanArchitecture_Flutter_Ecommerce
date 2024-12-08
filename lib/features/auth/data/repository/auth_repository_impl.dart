@@ -16,19 +16,28 @@ class AuthRepositoryImpl implements AuthRepository{
     try {
       final user = await _authRemoteDataSource.login(username, password);
       return Right(user.toEntity());
-    } on NetworkException {
-      return Left(NetworkFailure(message: "No se pudo conectar con el servidor. Verifica tu conexión."));
+    } on NetworkException catch(e){
+      return Left(NetworkFailure(message: "No se pudo conectar con el servidor. Verifica tu conexión. ${e.message != null ? "Error: ${e.message}": "" } "));
     } on HttpException catch (e) {
       if(e.statusCode == 401) {
         return Left(HttpFailure(message: "La contraseña es incorrecta"));
       } else {
         return Left(HttpFailure(message: "Error del servidor (${e.statusCode}). Inténtalo más tarde."));
       }
-    } on ParseException {
+    }
+    on ApiException catch(e){
+      return Left(ApiFailure(message: e.message));
+    }
+    on ParseException {
       return Left(ParseFailure(message: "Ocurrió un error al procesar la respuesta del servidor."));
     } catch (error) {
       return Left(UnexpectedFailure(message: "Ocurrió un error inesperado."));
     }
+
+  }
+
+  @override
+  Future<Either<Failure, bool>> logout(String id) {
 
   }
 }

@@ -1,4 +1,8 @@
-class NetworkException implements Exception {}
+class NetworkException implements Exception {
+  final String? message;
+
+  NetworkException({this.message});
+}
 
 class ParseException implements Exception {}
 

@@ -3,6 +3,7 @@ class ApiEndpoints {
 
   // Auth Endpoints
   static const String login = "/api/users/login";
+  static const String logout = "/api/users/logut";
   static const String getAllUsers = "/api/users/getAll";
 
   // Ecommerce Endpoints

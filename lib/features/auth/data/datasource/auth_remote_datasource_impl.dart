@@ -26,14 +26,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
         'email': username,
         'password': password,
       };
-
       final response = await _client.dio.post(ApiEndpoints.login,data: data);
-
       if (response.statusCode != 200) {
         throw HttpException(statusCode: response.statusCode);
       }
-
-      //return UserModel.fromJson(response.data);
       ApiResponse<UserModel> result = ApiResponse.fromJson(
           response.data, (responseData){
             return UserModel.fromJson(responseData);
@@ -46,13 +42,37 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
       }
 
     } on DioException catch(e){
-      throw NetworkException(); // Error de red
-    } on HttpException catch (e) {
-      // Este bloque captura la HttpException lanzada previamente
-      rethrow;  // Re-lanzamos la misma excepción si ya fue lanzada
-    } catch (error) {
+      throw NetworkException(message: e.message); // Error de red
+    } on HttpException{
+      rethrow;
+    } on ApiException{
+      rethrow;
+    }
+    catch (error) {
       throw ParseException(); // Error de parsing u otros errores
     }
   }
 
+  @override
+  Future<bool> logout(String id) async{
+    try{
+      final data = {'id': id};
+      final response = await _client.dio.post(ApiEndpoints.logout,data: data);
+      if (response.statusCode != 200) {
+        throw HttpException(statusCode: response.statusCode);
+      }
+      ApiResponse<UserModel> result = ApiResponse.fromJson(
+          response.data, (responseData){
+        return UserModel.fromJson(responseData);
+      });
+      if (result.success && result.data != null) {
+        return result.success;
+      } else {
+        throw ApiException(message: result.message);
+      }
+    }
+    on HttpException{
+      rethrow;
+    }
+  }
 }
