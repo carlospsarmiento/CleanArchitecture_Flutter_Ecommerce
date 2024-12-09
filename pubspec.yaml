@@ -58,9 +58,10 @@ dependencies:
   shared_preferences: ^2.3.3
 
   # show app in multiples devices
-  device_preview: ^1.2.0
+  #device_preview: ^1.2.0
 
-  flutter_screenutil: ^5.9.3
+  # utilities for responsive design
+  #flutter_screenutil: ^5.9.3
 
 dev_dependencies:
   flutter_test:

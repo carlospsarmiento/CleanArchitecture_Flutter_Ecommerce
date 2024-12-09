@@ -1,12 +1,10 @@
 import 'package:app_flutter/shared/presentation/bloc/auth_cubit.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_state.dart';
-import 'package:app_flutter/shared/presentation/utils/responsive_utils.dart';
 import 'package:app_flutter/shared/presentation/widgets/custom_progress_dialog.dart';
 import 'package:app_flutter/shared/presentation/widgets/custom_separator.dart';
 import 'package:app_flutter/shared/presentation/widgets/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -18,14 +16,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
-    final scaleFactor = MediaQuery.of(context).textScaleFactor;
-    final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
-    final calculo = ResponsiveUtils.getSp(context, 24);
-    ScreenUtil.init(context);
-
     return Scaffold(
         body: BlocListener<AuthCubit,AuthState>(
           listener: (context, state) => _listenAuthCubit(context,state),
@@ -38,12 +29,6 @@ class LoginScreen extends StatelessWidget {
                       children: [
                         CustomSeparator(height: screenHeight * 0.1),
                         _widgetLogo(),
-                        //Text("Login: $scaleFactor", style: TextStyle(fontSize: ScreenUtil().setSp(6))),
-                        //Text("Login", style: TextStyle(fontSize: 25)),
-                        //Text("Login: $devicePixelRatio", style: TextStyle(fontSize: ScreenUtils.getSp(context, 6))),
-                        //Text("Login: $devicePixelRatio , $calculo ", style: TextStyle(fontSize: calculo)),
-                        //Text("Width: $screenWidth", style: TextStyle(fontSize: 25)),
-                        //SizedBox(height: screenHeight * 0.1),
                         CustomSeparator(height: screenHeight * 0.1),
                         _widgetTitle(context),
                         //SizedBox(height: screenHeight * 0.05),

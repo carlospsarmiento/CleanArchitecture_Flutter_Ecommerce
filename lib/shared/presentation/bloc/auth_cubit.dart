@@ -2,7 +2,7 @@ import 'package:app_flutter/core/errors/failure.dart';
 import 'package:app_flutter/core/preferences/app_preferences.dart';
 import 'package:app_flutter/core/utils/validators.dart';
 import 'package:app_flutter/features/auth/domain/usecase/login_user.dart';
-import 'package:app_flutter/features/auth/domain/usecase/logout_user.dart';
+import 'package:app_flutter/shared/domain/usecase/logout_user.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
