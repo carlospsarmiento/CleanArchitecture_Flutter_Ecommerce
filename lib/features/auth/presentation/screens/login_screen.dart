@@ -1,7 +1,8 @@
-import 'package:app_flutter/core/utils/screen_utils.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_cubit.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_state.dart';
+import 'package:app_flutter/shared/presentation/utils/responsive_utils.dart';
 import 'package:app_flutter/shared/presentation/widgets/custom_progress_dialog.dart';
+import 'package:app_flutter/shared/presentation/widgets/custom_separator.dart';
 import 'package:app_flutter/shared/presentation/widgets/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,7 +23,7 @@ class LoginScreen extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final scaleFactor = MediaQuery.of(context).textScaleFactor;
     final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
-    final calculo = ScreenUtils.getSp(context, 24);
+    final calculo = ResponsiveUtils.getSp(context, 24);
     ScreenUtil.init(context);
 
     return Scaffold(
@@ -35,19 +36,18 @@ class LoginScreen extends StatelessWidget {
                     width: double.infinity,
                     child: Column(
                       children: [
-                        SizedBox(height: screenHeight * 0.1),
+                        CustomSeparator(height: screenHeight * 0.1),
                         _widgetLogo(),
                         //Text("Login: $scaleFactor", style: TextStyle(fontSize: ScreenUtil().setSp(6))),
                         //Text("Login", style: TextStyle(fontSize: 25)),
                         //Text("Login: $devicePixelRatio", style: TextStyle(fontSize: ScreenUtils.getSp(context, 6))),
                         //Text("Login: $devicePixelRatio , $calculo ", style: TextStyle(fontSize: calculo)),
                         //Text("Width: $screenWidth", style: TextStyle(fontSize: 25)),
-                        TextField(decoration: InputDecoration(
-                          hintText: "holaaaaa"
-                        )),
-                        SizedBox(height: screenHeight * 0.1),
+                        //SizedBox(height: screenHeight * 0.1),
+                        CustomSeparator(height: screenHeight * 0.1),
                         _widgetTitle(context),
-                        SizedBox(height: screenHeight * 0.05),
+                        //SizedBox(height: screenHeight * 0.05),
+                        CustomSeparator(height: screenHeight * 0.1),
                         _builderForm()
                       ],
                     ),
@@ -108,11 +108,11 @@ class LoginScreen extends StatelessWidget {
       child: Column(
         children: [
           _widgetTextFieldUsername(context),
-          const SizedBox(height: 16.0),
+          CustomSeparator(height: 16),
           _widgetTextFieldPassword(context),
-          const SizedBox(height: 16.0),
+          CustomSeparator(height: 16),
           _widgetButtonSignIn(context),
-          const SizedBox(height: 16.0),
+          CustomSeparator(height: 16),
           _widgetTextButtonForgotPassword(context),
           _widgetTextButtonSignUp(context)
         ],

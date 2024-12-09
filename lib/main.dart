@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
-        theme: AppTheme.lightThemeScaled(context),
+        theme: AppTheme.lightTheme(context),
         //home: LoginScreen()
         initialRoute: "auth/splash",
         routes: {

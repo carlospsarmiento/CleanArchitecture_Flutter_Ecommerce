@@ -98,8 +98,8 @@ class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         contentPadding: EdgeInsets.symmetric(
-          vertical: 12 * multiplier, // Ajuste el padding vertical
-          horizontal: 16 * multiplier, // Ajuste el padding horizontal
+          //vertical: 12 * multiplier, // Ajuste el padding vertical
+          //horizontal: 16 * multiplier, // Ajuste el padding horizontal
         ),
         hintStyle: GoogleFonts.openSans(
           fontSize: 14 * multiplier, // Ajuste del tamaño de la pista
@@ -109,18 +109,6 @@ class AppTheme {
           fontSize: 16 * multiplier, // Ajuste del tamaño de la etiqueta
           fontWeight: FontWeight.w600,
         ),
-        /*
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8 * multiplier), // Ajustar el radio del borde
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8 * multiplier), // Ajustar el radio del borde en foco
-          borderSide: BorderSide(
-            color: Colors.blue, // Color del borde en foco
-            width: 2.0 * multiplier, // Grosor del borde
-          ),
-        ),
-         */
       ),
     );
   }
