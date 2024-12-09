@@ -14,7 +14,7 @@ class CatalogListScreen extends StatelessWidget {
 
     // Lista de productos hardcodeada
     final List<Map<String, String>> products = [
-      {'name': 'Producto 1', 'image': 'https://via.placeholder.com/150'},
+      {'name': 'Producto 1', 'image': 'https://http2.mlstatic.com/D_NQ_NP_818939-MPE70523887936_072023-O.webp'},
       {'name': 'Producto 2', 'image': 'https://via.placeholder.com/150'},
       {'name': 'Producto 3', 'image': 'https://via.placeholder.com/150'},
       {'name': 'Producto 4', 'image': 'https://via.placeholder.com/150'},
