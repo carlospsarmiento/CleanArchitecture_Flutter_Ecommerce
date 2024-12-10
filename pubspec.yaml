@@ -57,6 +57,9 @@ dependencies:
   # session storage
   shared_preferences: ^2.3.3
 
+  # google maps
+  google_maps_flutter: ^2.10.0
+
   # show app in multiples devices
   #device_preview: ^1.2.0
 
