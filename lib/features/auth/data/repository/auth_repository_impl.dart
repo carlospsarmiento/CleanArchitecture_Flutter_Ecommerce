@@ -2,6 +2,7 @@ import 'package:app_flutter/core/errors/exception.dart';
 import 'package:app_flutter/core/errors/failure.dart';
 import 'package:app_flutter/features/auth/data/datasource/auth_remote_datasource.dart';
 import 'package:app_flutter/shared/data/datasource/shared_preferences_datasource.dart';
+import 'package:app_flutter/shared/data/mappers/user_mapper.dart';
 import 'package:app_flutter/shared/data/model/user_model.dart';
 import 'package:app_flutter/shared/domain/entity/user.dart';
 import 'package:app_flutter/features/auth/domain/repository/auth_repository.dart';
@@ -18,9 +19,9 @@ class AuthRepositoryImpl implements AuthRepository{
   @override
   Future<Either<Failure, User>> login(String username, String password) async{
     try {
-      final user = await _authRemoteDataSource.login(username, password);
-      await _sharedPreferencesDatasource.saveUserLogged(user);
-      return Right(user.toEntity());
+      final userLogged = await _authRemoteDataSource.login(username, password);
+      await _sharedPreferencesDatasource.saveUserLogged(userLogged);
+      return Right(UserMapper.toEntity(userLogged));
     } on NetworkException catch(e){
       return Left(NetworkFailure(message: "No se pudo conectar con el servidor. Verifica tu conexión. ${e.message != null ? "Error: ${e.message}": "" } "));
     } on HttpException catch (e) {
@@ -67,7 +68,8 @@ class AuthRepositoryImpl implements AuthRepository{
   Future<Either<Failure, User?>> getUserLogged() async{
     try{
       UserModel? userLogged = await _sharedPreferencesDatasource.getUserLogged();
-      User? result = userLogged?.toEntity();
+      //User? result = userLogged?.toEntity();
+      User? result = userLogged !=null ? UserMapper.toEntity(userLogged) : null;
       return Right(result);
     }
     on SharedPreferencesException catch (e) {
