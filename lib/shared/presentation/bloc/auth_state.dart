@@ -54,9 +54,23 @@ class AuthFieldValidationState extends AuthState {
 // CHECK USER LOGGED
 class AuthCheckUserLoggedLoadingState extends AuthState {}
 
-class AuthCheckUserLoggedSuccessState extends AuthState {}
+class AuthCheckUserLoggedSuccessState extends AuthState {
+  final User? userLogged;
 
-class AuthCheckUserLoggedFailState extends AuthState {}
+  AuthCheckUserLoggedSuccessState({required this.userLogged});
+
+  @override
+  List<Object?> get props => [userLogged];
+}
+
+class AuthCheckUserLoggedFailState extends AuthState {
+  final String message;
+
+  AuthCheckUserLoggedFailState({required this.message});
+
+  @override
+  List<Object?> get props => [message];
+}
 
 // LOGOUT USER
 class AuthLogoutLoadingState extends AuthState {}

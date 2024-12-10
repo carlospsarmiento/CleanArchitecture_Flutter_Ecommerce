@@ -2,6 +2,7 @@ import 'package:app_flutter/core/errors/failure.dart';
 import 'package:app_flutter/core/preferences/app_preferences.dart';
 import 'package:app_flutter/core/utils/validators.dart';
 import 'package:app_flutter/features/auth/domain/usecase/login_user.dart';
+import 'package:app_flutter/features/auth/domain/usecase/get_userlogged.dart';
 import 'package:app_flutter/shared/domain/usecase/logout_user.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,15 +12,13 @@ class AuthCubit extends Cubit<AuthState>{
   // UseCases
   final LoginUser _loginUser;
   final LogoutUser _logoutUser;
-
-  // Preferences
-  final AppPreferences _appPreferences;
+  final GetUserLogged _getUserLogged;
 
   // Variables
   String? usernameError;
   String? passwordError;
 
-  AuthCubit(this._loginUser, this._appPreferences, this._logoutUser):super(AuthInitialState());
+  AuthCubit(this._loginUser, this._logoutUser, this._getUserLogged):super(AuthInitialState());
 
   Future<void> login(String username, String password) async{
     emit(AuthLoginLoadingState());
@@ -40,7 +39,7 @@ class AuthCubit extends Cubit<AuthState>{
         emit(AuthLoginFailState(message: errorMessage));
       },
       (user) async {
-        await _appPreferences.saveUserLogged(user);
+        //await _appPreferences.saveUserLogged(user);
         emit(AuthLoginSuccessState(user: user));
       },
     );
@@ -48,18 +47,27 @@ class AuthCubit extends Cubit<AuthState>{
 
   Future<void> logout() async{
     emit(AuthLogoutLoadingState());
-    final userLogged = _appPreferences.getUserLogged();
-    final result = await _logoutUser.call(userLogged!.id!);
+    final result = await _logoutUser.call();
     result.fold(
       (failure){
         emit(AuthLogoutFailState(message: failure.message!));
     },(loggedOut) async{
-        await _appPreferences.clearUser();
         emit(AuthLogoutSuccessState(loggedOut: loggedOut));
     });
   }
 
   Future<void> checkUserLogged() async{
+    emit(AuthCheckUserLoggedLoadingState());
+    final result = await _getUserLogged.call();
+    result.fold(
+      (failure){
+        emit(AuthCheckUserLoggedFailState(message: failure.message!));
+      },
+      (user){
+        emit(AuthCheckUserLoggedSuccessState(userLogged: user));
+      }
+    );
+    /*
     final user = _appPreferences.getUserLogged();
     if(user!=null) {
       emit(AuthCheckUserLoggedSuccessState());
@@ -67,6 +75,7 @@ class AuthCubit extends Cubit<AuthState>{
     else{
       emit(AuthCheckUserLoggedFailState());
     }
+    */
   }
 
   void validateUsername(String? username) {

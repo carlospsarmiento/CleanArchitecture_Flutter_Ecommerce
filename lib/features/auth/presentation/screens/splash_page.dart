@@ -1,5 +1,6 @@
 import 'package:app_flutter/shared/presentation/bloc/auth_cubit.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_state.dart';
+import 'package:app_flutter/shared/presentation/widgets/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -44,10 +45,15 @@ class _SplashPageState extends State<SplashPage> {
 
   void _listenAuthCubit(BuildContext context, AuthState state){
     if(state is AuthCheckUserLoggedSuccessState){
-      Navigator.pushNamedAndRemoveUntil(context, 'ecommerce/catalog/list', (route) => false);
+      if(state.userLogged!=null){
+        Navigator.pushNamedAndRemoveUntil(context, 'ecommerce/catalog/list', (route) => false);
+      }
+      else{
+        Navigator.pushNamedAndRemoveUntil(context, 'auth/login', (route) => false);
+      }
     }
     if(state is AuthCheckUserLoggedFailState){
-      Navigator.pushNamedAndRemoveUntil(context, 'auth/login', (route) => false);
+      CustomSnackBar.show(context, message: state.message);
     }
   }
 }

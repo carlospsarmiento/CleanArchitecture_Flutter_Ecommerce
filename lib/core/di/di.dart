@@ -4,7 +4,10 @@ import 'package:app_flutter/features/auth/data/datasource/auth_remote_datasource
 import 'package:app_flutter/features/auth/data/datasource/auth_remote_datasource_impl.dart';
 import 'package:app_flutter/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:app_flutter/features/auth/domain/repository/auth_repository.dart';
+import 'package:app_flutter/features/auth/domain/usecase/get_userlogged.dart';
 import 'package:app_flutter/features/auth/domain/usecase/login_user.dart';
+import 'package:app_flutter/shared/data/datasource/shared_preferences_datasource.dart';
+import 'package:app_flutter/shared/data/datasource/shared_preferences_datasource_impl.dart';
 import 'package:app_flutter/shared/domain/usecase/logout_user.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_cubit.dart';
 import 'package:get_it/get_it.dart';
@@ -23,13 +26,15 @@ Future<void> initDi() async{
 
   // data sources
   di.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSourceImpl(di()));
+  di.registerLazySingleton<SharedPreferencesDatasource>( () => SharedPreferencesDatasourceImpl(di()));
 
   // repositories
-  di.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(di()));
+  di.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(di(), di()));
 
   // use cases
   di.registerLazySingleton<LoginUser>(() => LoginUser(di()));
   di.registerLazySingleton<LogoutUser>(() => LogoutUser(di()));
+  di.registerLazySingleton<GetUserLogged>(() => GetUserLogged(di()));
 
   // cubit
   di.registerFactory(() => AuthCubit(di(), di(), di()));

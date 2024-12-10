@@ -17,3 +17,9 @@ class ApiException implements Exception {
 
   ApiException({this.message});
 }
+
+class SharedPreferencesException implements Exception {
+  final String? message;
+
+  SharedPreferencesException({this.message});
+}

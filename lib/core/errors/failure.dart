@@ -28,6 +28,11 @@ class ParseFailure extends Failure {
   const ParseFailure({String? message}) : super(message: message ?? "Ocurrió un error al procesar la respuesta del servidor.");
 }
 
+/// Falla causada en Shared Preferences
+class SharedPreferencesFailure extends Failure {
+  const SharedPreferencesFailure({String? message}) : super(message: message ?? "Ocurrió un error al guardar las preferencias.");
+}
+
 /// Falla inesperada que no corresponde a las categorías anteriores.
 class UnexpectedFailure extends Failure {
   const UnexpectedFailure({String? message}) : super(message: message ?? "Ocurrió un error inesperado.");
