@@ -1,8 +1,9 @@
 import 'package:app_flutter/core/di/di.dart';
+import 'package:app_flutter/features/ecommerce/presentation/screens/address/address_map_screen.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_cubit.dart';
 import 'package:app_flutter/features/auth/presentation/screens/login_screen.dart';
 import 'package:app_flutter/features/auth/presentation/screens/splash_page.dart';
-import 'package:app_flutter/features/ecommerce/presentation/screens/catalog_list_screen.dart';
+import 'package:app_flutter/features/ecommerce/presentation/screens/catalog/catalog_list_screen.dart';
 import 'package:app_flutter/shared/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
           "auth/splash": (BuildContext context) => SplashPage(),
           "auth/login": (BuildContext context) => LoginScreen(),
           "ecommerce/catalog/list": (BuildContext context) => CatalogListScreen(),
+          "ecommerce/address/map" : (BuildContext context) => AddressMapScreen()
         },
 
         /*

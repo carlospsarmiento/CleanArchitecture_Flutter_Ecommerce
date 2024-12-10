@@ -8,7 +8,7 @@ import 'package:app_flutter/features/auth/domain/usecase/get_userlogged.dart';
 import 'package:app_flutter/features/auth/domain/usecase/login_user.dart';
 import 'package:app_flutter/shared/data/datasource/shared_preferences_datasource.dart';
 import 'package:app_flutter/shared/data/datasource/shared_preferences_datasource_impl.dart';
-import 'package:app_flutter/shared/domain/usecase/logout_user.dart';
+import 'package:app_flutter/features/auth/domain/usecase/logout_user.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';

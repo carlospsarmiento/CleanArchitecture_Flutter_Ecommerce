@@ -37,41 +37,65 @@ class CatalogListScreen extends StatelessWidget {
                   Tab(text: "Smartphone")
                 ]
             ),
-            flexibleSpace: Column(
-              children: [
-                SizedBox(height: 16),
-                _widgetMenuDrawer(),
-                SizedBox(height: 16),
-                _widgetTextfieldSearch()
-              ],
+            flexibleSpace: SafeArea(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      _widgetMenuDrawer(),
+                      Spacer(), // Empuja el botón hacia el centro horizontal
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, "ecommerce/address/map");
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "Elija su dirección",
+                            ),
+                            SizedBox(width: 8),
+                            Icon(Icons.place)
+                          ],
+                        ),
+                      ),
+                      Spacer(), // Balancea el espacio después del botón
+                    ]
+                  ),
+                  SizedBox(height: 16),
+                  _widgetTextfieldSearch()
+                ],
+              ),
             ),
           ),
         ),
         drawer: _widgetDrawer(context),
-        body: MultiBlocListener(
-          listeners: [
-            BlocListener<AuthCubit,AuthState>(
-              listener: (context,state) =>  _listenAuthCubit(context,state),
-            )
-          ],
-          child: TabBarView(
-                children: [
-                  // Primer Tab: Grid de productos
-                  GridView.builder(
-                    padding: const EdgeInsets.all(16),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, // Número de columnas
-                      crossAxisSpacing: 16, // Espaciado horizontal
-                      mainAxisSpacing: 16, // Espaciado vertical
-                      childAspectRatio: 0.8, // Relación de aspecto para cada celda
+        body: SafeArea(
+          child: MultiBlocListener(
+            listeners: [
+              BlocListener<AuthCubit,AuthState>(
+                listener: (context,state) =>  _listenAuthCubit(context,state),
+              )
+            ],
+            child: TabBarView(
+                  children: [
+                    // Primer Tab: Grid de productos
+                    GridView.builder(
+                      padding: const EdgeInsets.all(16),
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, // Número de columnas
+                        crossAxisSpacing: 16, // Espaciado horizontal
+                        mainAxisSpacing: 16, // Espaciado vertical
+                        childAspectRatio: 0.8, // Relación de aspecto para cada celda
+                      ),
+                      itemCount: products.length,
+                      itemBuilder: (context, index) {
+                        final product = products[index];
+                        return _widgetItemProduct(product);
+                      },
                     ),
-                    itemCount: products.length,
-                    itemBuilder: (context, index) {
-                      final product = products[index];
-                      return _widgetItemProduct(product);
-                    },
-                  ),
-                ]),
+                  ]),
+          ),
         ),
       ),
     );
