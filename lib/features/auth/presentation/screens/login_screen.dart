@@ -1,8 +1,10 @@
+import 'package:app_flutter/features/auth/presentation/widgets/login_banner.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_cubit.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_state.dart';
 import 'package:app_flutter/shared/presentation/widgets/custom_progress_dialog.dart';
 import 'package:app_flutter/shared/presentation/widgets/custom_separator.dart';
 import 'package:app_flutter/shared/presentation/widgets/custom_snackbar.dart';
+import 'package:app_flutter/shared/utils/responsive_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,18 +24,29 @@ class LoginScreen extends StatelessWidget {
           listener: (context, state) => _listenAuthCubit(context,state),
           child: SafeArea(
             child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  //padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: SizedBox(
                     width: double.infinity,
-                    child: Column(
+                    child: Row(
                       children: [
-                        CustomSeparator(height: screenHeight * 0.1),
-                        _widgetLogo(),
-                        CustomSeparator(height: screenHeight * 0.1),
-                        _widgetTitle(context),
-                        //SizedBox(height: screenHeight * 0.05),
-                        CustomSeparator(height: screenHeight * 0.1),
-                        _builderForm()
+                        //CustomSeparator(height: screenHeight * 0.1),
+                        //_widgetLogo(),
+                        ResponsiveUtils.isSmallScreen(context)? const SizedBox() : Expanded(child: LoginBanner()),
+                        Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: Column(
+                                children: [
+                                  !ResponsiveUtils.isSmallScreen(context) ? const SizedBox() : LoginBanner(),
+                                  CustomSeparator(height: screenHeight * 0.1),
+                                  _widgetTitle(context),
+                                  //SizedBox(height: screenHeight * 0.05),
+                                  CustomSeparator(height: screenHeight * 0.1),
+                                  _builderForm()
+                                ]
+                              ),
+                            )
+                        ),
                       ],
                     ),
                   ),

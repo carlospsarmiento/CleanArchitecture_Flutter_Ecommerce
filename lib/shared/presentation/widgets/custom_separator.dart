@@ -1,4 +1,4 @@
-import 'package:app_flutter/shared/presentation/utils/responsive_utils.dart';
+import 'package:app_flutter/shared/utils/responsive_utils.dart';
 import 'package:flutter/material.dart';
 
 class CustomSeparator extends StatelessWidget {

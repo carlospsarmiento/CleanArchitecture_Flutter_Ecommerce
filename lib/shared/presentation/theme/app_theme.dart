@@ -1,5 +1,5 @@
 import 'package:app_flutter/shared/presentation/theme/color_schemes.dart';
-import 'package:app_flutter/shared/presentation/utils/responsive_utils.dart';
+import 'package:app_flutter/shared/utils/responsive_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
