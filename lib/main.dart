@@ -1,4 +1,5 @@
 import 'package:app_flutter/core/di/di.dart';
+import 'package:app_flutter/features/auth/presentation/screens/register_screen.dart';
 import 'package:app_flutter/features/ecommerce/presentation/screens/address/address_map_screen.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_cubit.dart';
 import 'package:app_flutter/features/auth/presentation/screens/login_screen.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         routes: {
           "auth/splash": (BuildContext context) => SplashPage(),
           "auth/login": (BuildContext context) => LoginScreen(),
+          "auth/register": (BuildContext context) => RegisterScreen(),
           "ecommerce/catalog/list": (BuildContext context) => CatalogListScreen(),
           "ecommerce/address/map" : (BuildContext context) => AddressMapScreen()
         },

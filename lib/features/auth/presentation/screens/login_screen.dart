@@ -4,6 +4,7 @@ import 'package:app_flutter/shared/presentation/bloc/auth_state.dart';
 import 'package:app_flutter/shared/presentation/widgets/custom_progress_dialog.dart';
 import 'package:app_flutter/shared/presentation/widgets/custom_separator.dart';
 import 'package:app_flutter/shared/presentation/widgets/custom_snackbar.dart';
+import 'package:app_flutter/shared/presentation/widgets/custom_textformfield.dart';
 import 'package:app_flutter/shared/utils/responsive_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,6 +34,7 @@ class LoginScreen extends StatelessWidget {
                         //_widgetLogo(),
                         ResponsiveUtils.isSmallScreen(context)? const SizedBox() : Expanded(child: LoginBanner()),
                         Expanded(
+                            flex: 1,
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 16.0),
                               child: Column(
@@ -120,66 +122,17 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _widgetTextFieldUsername(BuildContext context){
-    final authCubit = context.read<AuthCubit>();
-    return TextFormField(
+    return CustomTextFormField(
       controller: usernameController,
-      decoration: InputDecoration(
-        hintText: "Usuario",
-        contentPadding: EdgeInsets.all(8),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(24),
-        ),
-        focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(24),
-            borderSide: BorderSide(
-                color: Theme.of(context).colorScheme.primary
-            )
-        ),
-        //errorText: authCubit.usernameError
-        //  errorText: authState is AuthLoginValidationFailState ? authState.usernameError : null,
-      ),
-      //onChanged: (value){
-      //  authCubit.validateUsername(value);
-      //},
-      //onSaved: (username) {
-      //},
-
-      /*
-      onChanged: (value) => authCubit.validateUsername(value),
-      validator: (value) {
-        authCubit.validateUsername(value);
-        return authCubit.usernameError;
-      },
-      */
+      hintText: "Usuario"
     );
   }
 
   Widget _widgetTextFieldPassword(BuildContext context){
-    final authCubit = context.read<AuthCubit>();
-    return TextFormField(
+    return CustomTextFormField(
       controller: passwordController,
+      hintText: "Contraseña",
       obscureText: true,
-      decoration: InputDecoration(
-        hintText: "Contraseña",
-        contentPadding: EdgeInsets.all(8),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(24),
-        ),
-        focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(24),
-            borderSide: BorderSide(
-                color: Theme.of(context).colorScheme.primary
-            )
-        ),
-        //errorText: authCubit.passwordError
-      ),
-      /*
-      onChanged: (value) => authCubit.validatePassword(value),
-      validator: (value){
-        authCubit.validatePassword(value);
-        return authCubit.passwordError;
-      },
-      */
     );
   }
 
@@ -224,7 +177,9 @@ class LoginScreen extends StatelessWidget {
 
   Widget _widgetTextButtonSignUp(BuildContext context){
     return TextButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.of(context).pushNamed("auth/register");
+      },
       style: TextButton.styleFrom(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           minimumSize: Size.zero,
@@ -240,7 +195,7 @@ class LoginScreen extends StatelessWidget {
                   color: Theme.of(context).colorScheme.primary,
                   fontWeight: FontWeight.w500
               ),
-            ),
+            )
           ],
         ),
         style: Theme.of(context)
