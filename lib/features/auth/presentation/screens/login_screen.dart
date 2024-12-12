@@ -37,10 +37,10 @@ class LoginScreen extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(horizontal: 16.0),
                               child: Column(
                                 children: [
+                                  ResponsiveUtils.isSmallScreen(context) ? CustomSeparator(height: screenHeight * 0.1):SizedBox(),
                                   !ResponsiveUtils.isSmallScreen(context) ? const SizedBox() : LoginBanner(),
-                                  CustomSeparator(height: screenHeight * 0.1),
+                                  CustomSeparator(height: screenHeight * 0.05),
                                   _widgetTitle(context),
-                                  //SizedBox(height: screenHeight * 0.05),
                                   CustomSeparator(height: screenHeight * 0.1),
                                   _builderForm()
                                 ]
@@ -104,13 +104,14 @@ class LoginScreen extends StatelessWidget {
     return Form(
       key: _formKey,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           _widgetTextFieldUsername(context),
           CustomSeparator(height: 16),
           _widgetTextFieldPassword(context),
           CustomSeparator(height: 16),
           _widgetButtonSignIn(context),
-          CustomSeparator(height: 16),
+          ResponsiveUtils.isSmallScreen(context)? CustomSeparator(height: 16): const SizedBox(),
           _widgetTextButtonForgotPassword(context),
           _widgetTextButtonSignUp(context)
         ],
@@ -124,7 +125,7 @@ class LoginScreen extends StatelessWidget {
       controller: usernameController,
       decoration: InputDecoration(
         hintText: "Usuario",
-        contentPadding: EdgeInsets.all(16),
+        contentPadding: EdgeInsets.all(8),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(24),
         ),
@@ -160,7 +161,7 @@ class LoginScreen extends StatelessWidget {
       obscureText: true,
       decoration: InputDecoration(
         hintText: "Contraseña",
-        contentPadding: EdgeInsets.all(16),
+        contentPadding: EdgeInsets.all(8),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(24),
         ),
@@ -200,6 +201,11 @@ class LoginScreen extends StatelessWidget {
   Widget _widgetTextButtonForgotPassword(BuildContext context){
     return TextButton(
         onPressed: (){},
+        style: TextButton.styleFrom(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          minimumSize: Size.zero,
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
         child: Text(
           "¿Olvidaste tu contraseña?",
           style: Theme.of(context)
@@ -219,6 +225,11 @@ class LoginScreen extends StatelessWidget {
   Widget _widgetTextButtonSignUp(BuildContext context){
     return TextButton(
       onPressed: () {},
+      style: TextButton.styleFrom(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          minimumSize: Size.zero,
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      ),
       child: Text.rich(
          TextSpan(
           text: "¿No tienes una cuenta? ",
