@@ -18,7 +18,8 @@ final di = GetIt.instance;
 Future<void> initDi() async{
 
   // globals
-  di.registerSingleton<DioClient>(DioClient());
+  //di.registerSingleton<DioClient>(DioClient());
+  di.registerSingleton<DioClient>(DioClient(() => di<AuthRepository>().getToken()));
 
   final sharedPreferences = await SharedPreferences.getInstance();
   di.registerLazySingleton(() => sharedPreferences);

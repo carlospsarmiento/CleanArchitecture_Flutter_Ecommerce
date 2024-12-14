@@ -108,9 +108,9 @@ class LoginScreen extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _widgetTextFieldUsername(context),
+          CustomTextFormField(controller: usernameController, hintText: "Usuario"),
           CustomSeparator(height: 16),
-          _widgetTextFieldPassword(context),
+          CustomTextFormField(controller: passwordController, hintText: "Contraseña", obscureText: true,),
           CustomSeparator(height: 16),
           _widgetButtonSignIn(context),
           ResponsiveUtils.isSmallScreen(context)? CustomSeparator(height: 16): const SizedBox(),
@@ -118,21 +118,6 @@ class LoginScreen extends StatelessWidget {
           _widgetTextButtonSignUp(context)
         ],
       ),
-    );
-  }
-
-  Widget _widgetTextFieldUsername(BuildContext context){
-    return CustomTextFormField(
-      controller: usernameController,
-      hintText: "Usuario"
-    );
-  }
-
-  Widget _widgetTextFieldPassword(BuildContext context){
-    return CustomTextFormField(
-      controller: passwordController,
-      hintText: "Contraseña",
-      obscureText: true,
     );
   }
 

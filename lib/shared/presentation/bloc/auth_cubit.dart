@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:app_flutter/core/errors/failure.dart';
 import 'package:app_flutter/core/preferences/app_preferences.dart';
 import 'package:app_flutter/core/utils/validators.dart';
 import 'package:app_flutter/features/auth/domain/usecase/login_user.dart';
 import 'package:app_flutter/features/auth/domain/usecase/get_userlogged.dart';
 import 'package:app_flutter/features/auth/domain/usecase/logout_user.dart';
+import 'package:app_flutter/shared/domain/entity/user.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,6 +22,12 @@ class AuthCubit extends Cubit<AuthState>{
   String? passwordError;
 
   AuthCubit(this._loginUser, this._logoutUser, this._getUserLogged):super(AuthInitialState());
+
+  Future<void> signUp(User user, File image) async{
+
+    
+
+  }
 
   Future<void> login(String username, String password) async{
     emit(AuthLoginLoadingState());
@@ -67,15 +76,6 @@ class AuthCubit extends Cubit<AuthState>{
         emit(AuthCheckUserLoggedSuccessState(userLogged: user));
       }
     );
-    /*
-    final user = _appPreferences.getUserLogged();
-    if(user!=null) {
-      emit(AuthCheckUserLoggedSuccessState());
-    }
-    else{
-      emit(AuthCheckUserLoggedFailState());
-    }
-    */
   }
 
   void validateUsername(String? username) {

@@ -79,4 +79,10 @@ class AuthRepositoryImpl implements AuthRepository{
       return Left(UnexpectedFailure(message: "Ocurrió un error inesperado."));
     }
   }
+
+  @override
+  Future<String?> getToken() async{
+    UserModel? userLogged = await _sharedPreferencesDatasource.getUserLogged();
+    return userLogged?.sessionToken;
+  }
 }

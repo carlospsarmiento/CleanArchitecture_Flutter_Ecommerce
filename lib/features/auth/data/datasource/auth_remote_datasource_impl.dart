@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app_flutter/core/errors/exception.dart';
 import 'package:app_flutter/core/network/api_endpoints.dart';
 import 'package:app_flutter/core/network/api_response.dart';
@@ -67,6 +69,37 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
       });
       if (result.success) {
         return result.success;
+      } else {
+        throw ApiException(message: result.message);
+      }
+    }
+    on HttpException{
+      rethrow;
+    }
+  }
+
+  @override
+  Future<UserModel> signUp(UserModel user, File file) async{
+    try{
+      FormData formData = FormData.fromMap({
+        'image': await MultipartFile.fromFile(
+          file.path,
+          filename: file.path.split('/').last,
+        ),
+        'name': user.name,
+        'lastname': user.lastname
+      });
+      final response = await _client.dio.post(ApiEndpoints.signup,data: formData);
+      if (response.statusCode != 200) {
+        throw HttpException(statusCode: response.statusCode);
+      }
+      ApiResponse<UserModel> result = ApiResponse.fromJson(
+          response.data, (responseData){
+        return UserModel.fromJson(responseData);
+      }
+      );
+      if (result.success && result.data != null) {
+        return result.data!;
       } else {
         throw ApiException(message: result.message);
       }

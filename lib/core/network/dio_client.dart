@@ -1,10 +1,11 @@
 import 'package:app_flutter/core/network/api_endpoints.dart';
+import 'package:app_flutter/features/auth/domain/repository/auth_repository.dart';
 import 'package:dio/dio.dart';
 
 class DioClient{
    final Dio _dio;
 
-   DioClient(): _dio = Dio(
+   DioClient(Function() getToken): _dio = Dio(
      BaseOptions(
        baseUrl: ApiEndpoints.baseUrl,
        headers: {
@@ -17,27 +18,22 @@ class DioClient{
           return status! > 0;
       }
      )
-   );
-
-  Dio get dio => _dio;
-
-   /*
-   DioClient(): _dio = Dio(
-     BaseOptions(
-       baseUrl: "https://myapi.com/v1"
-     )
    ){
-     test();
-   }
-   */
-
-   /*
-   void test(){
-     _dio = Dio(
-       BaseOptions(
-         baseUrl: "https://otherapi.com/v1"
+     _dio.interceptors.add(
+       InterceptorsWrapper(
+         onRequest: (options, handler) async{
+           //final token = await authRepository.getToken();
+           final token = await getToken();
+           if (token != null) {
+             options.headers['Authorization'] = 'Bearer $token';
+             print("session token: $token");
+           }
+           print("session token: $token");
+           handler.next(options);
+         }
        )
      );
    }
-   */
+
+  Dio get dio => _dio;
 }

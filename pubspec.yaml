@@ -60,6 +60,9 @@ dependencies:
   # google maps
   google_maps_flutter: ^2.10.0
 
+  # image picker from camera and gallery
+  image_picker: ^1.1.2
+
   # show app in multiples devices
   #device_preview: ^1.2.0
 
