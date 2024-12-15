@@ -1,9 +1,11 @@
 import 'dart:io';
-
 import 'package:app_flutter/features/auth/presentation/widgets/login_banner.dart';
+import 'package:app_flutter/shared/domain/entity/user.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_cubit.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_state.dart';
+import 'package:app_flutter/shared/presentation/widgets/custom_progress_dialog.dart';
 import 'package:app_flutter/shared/presentation/widgets/custom_separator.dart';
+import 'package:app_flutter/shared/presentation/widgets/custom_snackbar.dart';
 import 'package:app_flutter/shared/presentation/widgets/custom_textformfield.dart';
 import 'package:app_flutter/shared/utils/responsive_utils.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +21,12 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _repeatPasswordController = TextEditingController();
   File? _image;
 
   @override
@@ -60,7 +67,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void _listenAuthCubit(BuildContext context, AuthState state){
-
+    if(state is AuthSignupLoadingState){
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) => CustomProgressDialog(message: "Registrando su cuenta...")
+      );
+    }
+    if (state is AuthSignupSuccessState) {
+      Navigator.of(context).pop();
+      CustomSnackBar.show(context, message: "Su cuenta ha sido creada correctamente, ya puede iniciar sesión");
+    }
+    if (state is AuthSignupFailState) {
+      Navigator.of(context).pop();
+      CustomSnackBar.show(context, message: state.message);
+    }
   }
 
   Widget _widgetImageProfile(){
@@ -111,17 +132,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            CustomTextFormField(controller: usernameController, hintText: "Email"),
+            CustomTextFormField(controller: _emailController, hintText: "Email"),
             CustomSeparator(height: 16),
-            CustomTextFormField(controller: usernameController, hintText: "Nombre"),
+            CustomTextFormField(controller: _nameController, hintText: "Nombre"),
             CustomSeparator(height: 16),
-            CustomTextFormField(controller: usernameController, hintText: "Apellido"),
+            CustomTextFormField(controller: _lastNameController, hintText: "Apellido"),
             CustomSeparator(height: 16),
-            CustomTextFormField(controller: usernameController, hintText: "Teléfono"),
+            CustomTextFormField(controller: _phoneController, hintText: "Teléfono"),
             CustomSeparator(height: 16),
-            CustomTextFormField(controller: usernameController, hintText: "Contraseña"),
+            CustomTextFormField(controller: _passwordController, hintText: "Contraseña"),
             CustomSeparator(height: 16),
-            _widgetButtonSignUp(context)
+            CustomTextFormField(controller: _repeatPasswordController, hintText: "Repetir Contraseña"),
+            CustomSeparator(height: 16),
+            _widgetButtonSignUp(context),
+            CustomSeparator(height: 16),
+            _widgetTextButtonSignIn(context)
           ],
         )
     );
@@ -132,7 +157,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       width: MediaQuery.of(context).size.width ,
       child: FilledButton(
           onPressed: () {
-            //context.read<AuthCubit>().login();
+            User user = User(
+                name: _nameController.text,
+                lastname: _lastNameController.text,
+                email: _emailController.text,
+                phone: _phoneController.text,
+                password: _passwordController.text);
+            context.read<AuthCubit>().signUp(user, _image);
           },
           child: Text("Registrarme")
       ),
@@ -174,4 +205,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
+  Widget _widgetTextButtonSignIn(BuildContext context){
+    return TextButton(
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+      style: TextButton.styleFrom(
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        minimumSize: Size.zero,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      ),
+      child: Text.rich(
+        TextSpan(
+          text: "¿Ya tienes una cuenta? ",
+          children: [
+            TextSpan(
+              text: "Ingresa",
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.w500
+              ),
+            )
+          ],
+        ),
+        style: Theme.of(context)
+            .textTheme
+            .bodyMedium!
+            .copyWith(
+            color: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .color!
+                .withOpacity(0.6)
+        ),
+      ),
+    );
+  }
 }

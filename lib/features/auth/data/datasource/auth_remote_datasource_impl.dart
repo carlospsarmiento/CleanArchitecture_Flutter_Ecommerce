@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:app_flutter/core/errors/exception.dart';
@@ -13,14 +14,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
   final DioClient _client;
 
   AuthRemoteDataSourceImpl(this._client);
-
-  /*
-  @override
-  Future<UserModel> login(String username, String password) async{
-    final result = await _client.dio.get(ApiEndpoints.getAllUsers);
-    return UserModel.fromJson(result.data);
-  }
-  */
 
   Future<UserModel> login(String username, String password) async {
     try {
@@ -79,18 +72,18 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
   }
 
   @override
-  Future<UserModel> signUp(UserModel user, File file) async{
+  Future<UserModel> signUp(UserModel user, File? image) async{
     try{
-      FormData formData = FormData.fromMap({
-        'image': await MultipartFile.fromFile(
-          file.path,
-          filename: file.path.split('/').last,
-        ),
-        'name': user.name,
-        'lastname': user.lastname
+      final formData = FormData.fromMap({
+        'user': jsonEncode(user.toJson()),
+        if (image != null)
+          'image': await MultipartFile.fromFile(
+            image.path,
+            filename: image.uri.pathSegments.last, // Para extraer el nombre del archivo
+          ),
       });
       final response = await _client.dio.post(ApiEndpoints.signup,data: formData);
-      if (response.statusCode != 200) {
+      if (response.statusCode != 201) {
         throw HttpException(statusCode: response.statusCode);
       }
       ApiResponse<UserModel> result = ApiResponse.fromJson(
@@ -106,6 +99,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
     }
     on HttpException{
       rethrow;
+    }
+    catch (error) {
+      throw ParseException(); // Error de parsing u otros errores
     }
   }
 }

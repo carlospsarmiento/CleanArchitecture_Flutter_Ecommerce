@@ -31,6 +31,27 @@ class AuthLoginFailState extends AuthState {
   List<Object?> get props => [message];
 }
 
+// SIGNUP USER
+class AuthSignupLoadingState extends AuthState {}
+
+class AuthSignupSuccessState extends AuthState {
+  final User user;
+
+  AuthSignupSuccessState({required this.user});
+
+  @override
+  List<Object> get props => [user];
+}
+
+class AuthSignupFailState extends AuthState {
+  final String message;
+
+  AuthSignupFailState({required this.message});
+
+  @override
+  List<Object?> get props => [message];
+}
+/*
 class AuthFieldValidationState extends AuthState {
   final String? usernameError;
   final String? passwordError;
@@ -50,6 +71,7 @@ class AuthFieldValidationState extends AuthState {
   @override
   List<Object?> get props => [usernameError,passwordError];
 }
+ */
 
 // CHECK USER LOGGED
 class AuthCheckUserLoggedLoadingState extends AuthState {}

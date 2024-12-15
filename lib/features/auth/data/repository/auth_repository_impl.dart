@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app_flutter/core/errors/exception.dart';
 import 'package:app_flutter/core/errors/failure.dart';
 import 'package:app_flutter/features/auth/data/datasource/auth_remote_datasource.dart';
@@ -84,5 +86,22 @@ class AuthRepositoryImpl implements AuthRepository{
   Future<String?> getToken() async{
     UserModel? userLogged = await _sharedPreferencesDatasource.getUserLogged();
     return userLogged?.sessionToken;
+  }
+
+  @override
+  Future<Either<Failure,User>> signUp(User user, File? image) async{
+    try{
+      final result = await _authRemoteDataSource.signUp(UserMapper.toModel(user),image);
+      return Right(UserMapper.toEntity(result));
+    }
+    on HttpException catch (e) {
+      return Left(HttpFailure(message: "Error del servidor (${e.statusCode}). Inténtalo más tarde."));
+    }
+    on ApiException catch(e){
+      return Left(ApiFailure(message: e.message));
+    }
+    catch (e) {
+      return Left(UnexpectedFailure(message: "Ocurrió un error inesperado."));
+    }
   }
 }

@@ -6,6 +6,7 @@ import 'package:app_flutter/features/auth/data/repository/auth_repository_impl.d
 import 'package:app_flutter/features/auth/domain/repository/auth_repository.dart';
 import 'package:app_flutter/features/auth/domain/usecase/get_userlogged.dart';
 import 'package:app_flutter/features/auth/domain/usecase/login_user.dart';
+import 'package:app_flutter/features/auth/domain/usecase/signup_user.dart';
 import 'package:app_flutter/shared/data/datasource/shared_preferences_datasource.dart';
 import 'package:app_flutter/shared/data/datasource/shared_preferences_datasource_impl.dart';
 import 'package:app_flutter/features/auth/domain/usecase/logout_user.dart';
@@ -36,7 +37,8 @@ Future<void> initDi() async{
   di.registerLazySingleton<LoginUser>(() => LoginUser(di()));
   di.registerLazySingleton<LogoutUser>(() => LogoutUser(di()));
   di.registerLazySingleton<GetUserLogged>(() => GetUserLogged(di()));
+  di.registerLazySingleton<SignupUser>(() => SignupUser(di()));
 
   // cubit
-  di.registerFactory(() => AuthCubit(di(), di(), di()));
+  di.registerFactory(() => AuthCubit(di(), di(), di(), di()));
 }

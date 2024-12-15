@@ -12,8 +12,8 @@ class DioClient{
          'Content-Type': 'application/json',
          'Accept': 'application/json'
        },
-       connectTimeout: Duration(seconds: 6),
-       receiveTimeout: Duration(seconds: 6),
+       connectTimeout: Duration(seconds: 30),
+       receiveTimeout: Duration(seconds: 30),
        validateStatus: (int? status) {
           return status! > 0;
       }

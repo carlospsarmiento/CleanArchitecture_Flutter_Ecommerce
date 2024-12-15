@@ -5,10 +5,10 @@ class UserMapper {
   static User toEntity(UserModel model) {
     return User(
       id: model.id,
-      name: model.name,
-      lastname: model.lastname,
-      email: model.email,
-      phone: model.phone,
+      name: model.name??"",
+      lastname: model.lastname??"",
+      email: model.email??"",
+      phone: model.phone??"",
       password: model.password,
       sessionToken: model.sessionToken,
     );

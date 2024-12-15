@@ -1,11 +1,9 @@
 import 'dart:io';
-
 import 'package:app_flutter/core/errors/failure.dart';
-import 'package:app_flutter/core/preferences/app_preferences.dart';
-import 'package:app_flutter/core/utils/validators.dart';
 import 'package:app_flutter/features/auth/domain/usecase/login_user.dart';
 import 'package:app_flutter/features/auth/domain/usecase/get_userlogged.dart';
 import 'package:app_flutter/features/auth/domain/usecase/logout_user.dart';
+import 'package:app_flutter/features/auth/domain/usecase/signup_user.dart';
 import 'package:app_flutter/shared/domain/entity/user.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,17 +14,39 @@ class AuthCubit extends Cubit<AuthState>{
   final LoginUser _loginUser;
   final LogoutUser _logoutUser;
   final GetUserLogged _getUserLogged;
+  final SignupUser _signupUser;
 
   // Variables
-  String? usernameError;
-  String? passwordError;
+  //String? usernameError;
+  //String? passwordError;
 
-  AuthCubit(this._loginUser, this._logoutUser, this._getUserLogged):super(AuthInitialState());
+  AuthCubit(
+      this._loginUser,
+      this._logoutUser,
+      this._getUserLogged,
+      this._signupUser
+      ):super(AuthInitialState());
 
-  Future<void> signUp(User user, File image) async{
-
-    
-
+  Future<void> signUp(User user, File? image) async{
+    emit(AuthSignupLoadingState());
+    final result = await _signupUser.call(user, image);
+    result.fold(
+      (failure){
+        String errorMessage = "Ocurrió un error en el registro.";
+        if (failure is NetworkFailure) {
+          errorMessage = failure.message ?? "No se pudo conectar al servidor.";
+        } else if (failure is HttpFailure) {
+          errorMessage = failure.message ?? "Error del servidor. Inténtalo más tarde.";
+        } else if (failure is ParseFailure) {
+          errorMessage = failure.message ?? "Error al procesar los datos.";
+        } else if (failure is UnexpectedFailure) {
+          errorMessage = failure.message ?? "Ocurrió un error inesperado.";
+        }
+        emit(AuthSignupFailState(message: errorMessage));
+      },
+      (user){
+        emit(AuthSignupSuccessState(user: user));
+      });
   }
 
   Future<void> login(String username, String password) async{
@@ -48,7 +68,6 @@ class AuthCubit extends Cubit<AuthState>{
         emit(AuthLoginFailState(message: errorMessage));
       },
       (user) async {
-        //await _appPreferences.saveUserLogged(user);
         emit(AuthLoginSuccessState(user: user));
       },
     );
@@ -78,6 +97,7 @@ class AuthCubit extends Cubit<AuthState>{
     );
   }
 
+  /*
   void validateUsername(String? username) {
     usernameError = Validators.validateEmail(username);
     if(state is AuthFieldValidationState){
@@ -89,13 +109,6 @@ class AuthCubit extends Cubit<AuthState>{
           usernameError: usernameError,
           passwordError: passwordError));
     }
-    /*
-    if (username == null || username.isEmpty) {
-      usernameError = 'El usuario no puede estar vacío';
-    } else {
-      usernameError = null;
-    }
-    */
   }
 
   void validatePassword(String? password) {
@@ -114,4 +127,5 @@ class AuthCubit extends Cubit<AuthState>{
           passwordError: passwordError));
     }
   }
+  */
 }

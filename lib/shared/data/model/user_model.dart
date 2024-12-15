@@ -2,20 +2,20 @@ import 'package:app_flutter/shared/domain/entity/user.dart';
 
 class UserModel{
   String? id;
-  String name;
-  String lastname;
-  String email;
-  String phone;
+  String? name;
+  String? lastname;
+  String? email;
+  String? phone;
   String? password;
   String? sessionToken;
 
   UserModel({
     this.id,
-    required this.name,
-    required this.lastname,
-    required this.email,
-    required this.phone,
-    required this.password,
+    this.name,
+    this.lastname,
+    this.email,
+    this.phone,
+    this.password,
     this.sessionToken
   });
 
@@ -40,14 +40,4 @@ class UserModel{
     "password": password,
     "session_token": sessionToken
   };
-
-  User toEntity() => User(
-      id: id,
-      name: name,
-      lastname: lastname,
-      email: email,
-      phone: phone,
-      password: password,
-      sessionToken: sessionToken
-    );
 }
