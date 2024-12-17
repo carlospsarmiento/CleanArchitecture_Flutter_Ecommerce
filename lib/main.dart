@@ -12,7 +12,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-/// Handler global para mensajes en segundo plano
+// Handler global para mensajes en segundo plano
+// este evento ocurre cuando el usuario tiene la app en segundo plano o cerrada y llega una notificacion
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print("Mensaje en segundo plano: ${message.notification?.title}");
