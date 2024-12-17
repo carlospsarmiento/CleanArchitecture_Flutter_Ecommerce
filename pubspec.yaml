@@ -63,6 +63,11 @@ dependencies:
   # image picker from camera and gallery
   image_picker: ^1.1.2
 
+  # push notifications
+  firebase_messaging: ^15.1.6
+  firebase_core: ^3.8.1
+  flutter_local_notifications: ^18.0.1
+
   # show app in multiples devices
   #device_preview: ^1.2.0
 
