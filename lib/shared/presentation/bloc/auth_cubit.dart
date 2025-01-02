@@ -32,7 +32,7 @@ class AuthCubit extends Cubit<AuthState>{
     final result = await _signupUser.call(user, image);
     result.fold(
       (failure){
-        String errorMessage = "Ocurrió un error en el registro. ${failure.message??""}";
+        String errorMessage = failure.message??"";
         emit(AuthSignupFailState(message: errorMessage));
       },
       (user){
@@ -45,7 +45,7 @@ class AuthCubit extends Cubit<AuthState>{
     final result = await _loginUser.call(username, password);
     result.fold(
       (failure) {
-        String errorMessage = "Ocurrió un error en el login. ${failure.message??""}";
+        String errorMessage = failure.message??"";
         emit(AuthLoginFailState(message: errorMessage));
       },
       (user) async {
