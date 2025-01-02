@@ -23,7 +23,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
       };
       final response = await _client.dio.post(ApiEndpoints.login,data: data);
       if (response.statusCode != 200) {
-        throw HttpException(statusCode: response.statusCode);
+        throw CustomHttpException(statusCode: response.statusCode);
       }
       ApiResponse<UserModel> result = ApiResponse.fromJson(
           response.data, (responseData){
@@ -33,18 +33,17 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
       if (result.success && result.data != null) {
         return result.data!;
       } else {
-        throw ApiException(message: result.message);
+        throw CustomApiException(message: result.message);
       }
-
     } on DioException catch(e){
-      throw NetworkException(message: e.message); // Error de red
-    } on HttpException{
+      throw CustomNetworkException(message: e.message);
+    } on CustomHttpException{
       rethrow;
-    } on ApiException{
+    } on CustomApiException{
       rethrow;
     }
-    catch (error) {
-      throw ParseException(); // Error de parsing u otros errores
+    catch (e) {
+      throw CustomGenericException(message: e.toString());
     }
   }
 
@@ -54,7 +53,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
       final data = {'id': id};
       final response = await _client.dio.post(ApiEndpoints.logout,data: data);
       if (response.statusCode != 200) {
-        throw HttpException(statusCode: response.statusCode);
+        throw CustomHttpException(statusCode: response.statusCode);
       }
       ApiResponse<UserModel> result = ApiResponse.fromJson(
           response.data, (responseData){
@@ -63,11 +62,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
       if (result.success) {
         return result.success;
       } else {
-        throw ApiException(message: result.message);
+        throw CustomApiException(message: result.message);
       }
     }
-    on HttpException{
+    on CustomHttpException{
       rethrow;
+    }
+    catch (e) {
+      throw CustomGenericException(message: e.toString());
     }
   }
 
@@ -84,7 +86,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
       });
       final response = await _client.dio.post(ApiEndpoints.signup,data: formData);
       if (response.statusCode != 201) {
-        throw HttpException(statusCode: response.statusCode);
+        throw CustomHttpException(statusCode: response.statusCode);
       }
       ApiResponse<UserModel> result = ApiResponse.fromJson(
           response.data, (responseData){
@@ -94,14 +96,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
       if (result.success && result.data != null) {
         return result.data!;
       } else {
-        throw ApiException(message: result.message);
+        throw CustomApiException(message: result.message);
       }
     }
-    on HttpException{
+    on CustomHttpException{
       rethrow;
     }
-    catch (error) {
-      throw ParseException(); // Error de parsing u otros errores
+    catch (e) {
+      throw CustomGenericException(message: e.toString());
     }
   }
 }

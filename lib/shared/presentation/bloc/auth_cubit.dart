@@ -32,16 +32,7 @@ class AuthCubit extends Cubit<AuthState>{
     final result = await _signupUser.call(user, image);
     result.fold(
       (failure){
-        String errorMessage = "Ocurrió un error en el registro.";
-        if (failure is NetworkFailure) {
-          errorMessage = failure.message ?? "No se pudo conectar al servidor.";
-        } else if (failure is HttpFailure) {
-          errorMessage = failure.message ?? "Error del servidor. Inténtalo más tarde.";
-        } else if (failure is ParseFailure) {
-          errorMessage = failure.message ?? "Error al procesar los datos.";
-        } else if (failure is UnexpectedFailure) {
-          errorMessage = failure.message ?? "Ocurrió un error inesperado.";
-        }
+        String errorMessage = "Ocurrió un error en el registro. ${failure.message??""}";
         emit(AuthSignupFailState(message: errorMessage));
       },
       (user){
@@ -54,17 +45,7 @@ class AuthCubit extends Cubit<AuthState>{
     final result = await _loginUser.call(username, password);
     result.fold(
       (failure) {
-        String errorMessage = "Ocurrió un error en el login.";
-
-        if (failure is NetworkFailure) {
-          errorMessage = failure.message ?? "No se pudo conectar al servidor.";
-        } else if (failure is HttpFailure) {
-          errorMessage = failure.message ?? "Error del servidor. Inténtalo más tarde.";
-        } else if (failure is ParseFailure) {
-          errorMessage = failure.message ?? "Error al procesar los datos.";
-        } else if (failure is UnexpectedFailure) {
-          errorMessage = failure.message ?? "Ocurrió un error inesperado.";
-        }
+        String errorMessage = "Ocurrió un error en el login. ${failure.message??""}";
         emit(AuthLoginFailState(message: errorMessage));
       },
       (user) async {

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:app_flutter/core/errors/exception.dart';
 import 'package:app_flutter/core/errors/failure.dart';
 import 'package:app_flutter/features/auth/data/datasource/auth_remote_datasource.dart';
@@ -24,26 +23,23 @@ class AuthRepositoryImpl implements AuthRepository{
       final userLogged = await _authRemoteDataSource.login(username, password);
       await _sharedPreferencesDatasource.saveUserLogged(userLogged);
       return Right(UserMapper.toEntity(userLogged));
-    } on NetworkException catch(e){
-      return Left(NetworkFailure(message: "No se pudo conectar con el servidor. Verifica tu conexión. ${e.message != null ? "Error: ${e.message}": "" } "));
-    } on HttpException catch (e) {
+    } on CustomNetworkException catch(e){
+      return Left(CustomGenericFailure(message: "No se pudo conectar con el servidor. Verifica tu conexión. ${e.message != null ? "Error: ${e.message}": "" } "));
+    } on CustomHttpException catch (e) {
       if(e.statusCode == 401) {
-        return Left(HttpFailure(message: "La contraseña es incorrecta"));
+        return Left(CustomGenericFailure(message: "La contraseña es incorrecta"));
       } else {
-        return Left(HttpFailure(message: "Error del servidor (${e.statusCode}). Inténtalo más tarde."));
+        return Left(CustomGenericFailure(message: "Error del servidor (${e.statusCode}). Inténtalo más tarde."));
       }
     }
-    on ApiException catch(e){
-      return Left(ApiFailure(message: e.message));
-    }
-    on ParseException {
-      return Left(ParseFailure(message: "Ocurrió un error al procesar la respuesta del servidor."));
+    on CustomApiException catch(e){
+      return Left(CustomGenericFailure(message: e.message));
     }
     on SharedPreferencesException catch(e){
-      return Left(SharedPreferencesFailure(message: e.message));
+      return Left(CustomGenericFailure(message: "Ocurrió un error. ${e.message}"));
     }
-    catch (e) {
-      return Left(UnexpectedFailure(message: "Ocurrió un error inesperado."));
+    on CustomGenericException catch(e){
+      return Left(CustomGenericFailure(message: "Ocurrió un error. ${e.message}"));
     }
   }
 
@@ -55,14 +51,14 @@ class AuthRepositoryImpl implements AuthRepository{
       await _sharedPreferencesDatasource.removeUserLogged();
       return Right(loggedAuth);
     }
-    on HttpException catch (e) {
-      return Left(HttpFailure(message: "Error del servidor (${e.statusCode}). Inténtalo más tarde."));
+    on CustomHttpException catch (e) {
+      return Left(CustomGenericFailure(message: "Error del servidor (${e.statusCode}). Inténtalo más tarde."));
     }
-    on ApiException catch(e){
-      return Left(ApiFailure(message: e.message));
+    on CustomApiException catch(e){
+      return Left(CustomGenericFailure(message: e.message));
     }
-    catch (e) {
-      return Left(UnexpectedFailure(message: "Ocurrió un error inesperado."));
+    on CustomGenericException catch(e){
+      return Left(CustomGenericFailure(message: "Ocurrió un error. ${e.message}"));
     }
   }
 
@@ -70,15 +66,11 @@ class AuthRepositoryImpl implements AuthRepository{
   Future<Either<Failure, User?>> getUserLogged() async{
     try{
       UserModel? userLogged = await _sharedPreferencesDatasource.getUserLogged();
-      //User? result = userLogged?.toEntity();
       User? result = userLogged !=null ? UserMapper.toEntity(userLogged) : null;
       return Right(result);
     }
     on SharedPreferencesException catch (e) {
-      return Left(SharedPreferencesFailure(message: e.message));
-    }
-    catch (e) {
-      return Left(UnexpectedFailure(message: "Ocurrió un error inesperado."));
+      return Left(CustomGenericFailure(message: "Ocurrió un error. ${e.message}"));
     }
   }
 
@@ -94,14 +86,14 @@ class AuthRepositoryImpl implements AuthRepository{
       final result = await _authRemoteDataSource.signUp(UserMapper.toModel(user),image);
       return Right(UserMapper.toEntity(result));
     }
-    on HttpException catch (e) {
-      return Left(HttpFailure(message: "Error del servidor (${e.statusCode}). Inténtalo más tarde."));
+    on CustomHttpException catch (e) {
+      return Left(CustomGenericFailure(message: "Error del servidor (${e.statusCode}). Inténtalo más tarde."));
     }
-    on ApiException catch(e){
-      return Left(ApiFailure(message: e.message));
+    on CustomApiException catch(e){
+      return Left(CustomGenericFailure(message: e.message));
     }
-    catch (e) {
-      return Left(UnexpectedFailure(message: "Ocurrió un error inesperado."));
+    on CustomGenericException catch(e){
+      return Left(CustomGenericFailure(message: "Ocurrió un error. ${e.message}"));
     }
   }
 }

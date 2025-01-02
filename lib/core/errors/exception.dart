@@ -1,21 +1,25 @@
-class NetworkException implements Exception {
+class CustomGenericException implements Exception {
   final String? message;
 
-  NetworkException({this.message});
+  CustomGenericException({this.message});
 }
 
-class ParseException implements Exception {}
+class CustomNetworkException implements Exception {
+  final String? message;
 
-class HttpException implements Exception {
+  CustomNetworkException({this.message});
+}
+
+class CustomHttpException implements Exception {
   final int? statusCode;
 
-  HttpException({this.statusCode});
+  CustomHttpException({this.statusCode});
 }
 
-class ApiException implements Exception {
+class CustomApiException implements Exception {
   final String? message;
 
-  ApiException({this.message});
+  CustomApiException({this.message});
 }
 
 class SharedPreferencesException implements Exception {
