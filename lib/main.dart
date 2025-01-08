@@ -1,11 +1,11 @@
 import 'package:app_flutter/core/di/di.dart';
 import 'package:app_flutter/core/notifications/firebase_notification_service.dart';
 import 'package:app_flutter/features/auth/presentation/screens/register_screen.dart';
-import 'package:app_flutter/features/ecommerce/presentation/screens/address/address_map_screen.dart';
+import 'package:app_flutter/features/ecommerce/presentation/screens/client/address/client_address_map_screen.dart';
+import 'package:app_flutter/features/ecommerce/presentation/screens/client/catalog/client_catalog_list_screen.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_cubit.dart';
 import 'package:app_flutter/features/auth/presentation/screens/login_screen.dart';
 import 'package:app_flutter/features/auth/presentation/screens/splash_page.dart';
-import 'package:app_flutter/features/ecommerce/presentation/screens/catalog/catalog_list_screen.dart';
 import 'package:app_flutter/shared/presentation/theme/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -70,8 +70,8 @@ class _MyAppState extends State<MyApp> {
           "auth/splash": (BuildContext context) => SplashPage(),
           "auth/login": (BuildContext context) => LoginScreen(),
           "auth/register": (BuildContext context) => RegisterScreen(),
-          "ecommerce/catalog/list": (BuildContext context) => CatalogListScreen(),
-          "ecommerce/address/map" : (BuildContext context) => AddressMapScreen()
+          "ecommerce/client/catalog/list": (BuildContext context) => ClientCatalogListScreen(),
+          "ecommerce/client/address/map" : (BuildContext context) => ClientAddressMapScreen()
         },
 
         /*

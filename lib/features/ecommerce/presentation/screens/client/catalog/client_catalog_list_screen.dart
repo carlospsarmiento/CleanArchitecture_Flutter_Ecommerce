@@ -5,8 +5,8 @@ import 'package:app_flutter/shared/presentation/widgets/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CatalogListScreen extends StatelessWidget {
-  CatalogListScreen({super.key});
+class ClientCatalogListScreen extends StatelessWidget {
+  ClientCatalogListScreen({super.key});
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -26,49 +26,7 @@ class CatalogListScreen extends StatelessWidget {
       length: 1,
       child: Scaffold(
         key: _scaffoldKey,
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(170),
-          child: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-            automaticallyImplyLeading: false,
-            bottom: TabBar(
-                isScrollable: true,
-                tabs: [
-                  Tab(text: "Smartphone")
-                ]
-            ),
-            flexibleSpace: SafeArea(
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      _widgetMenuDrawer(),
-                      Spacer(), // Empuja el botón hacia el centro horizontal
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, "ecommerce/address/map");
-                        },
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              "Elija su dirección",
-                            ),
-                            SizedBox(width: 8),
-                            Icon(Icons.place)
-                          ],
-                        ),
-                      ),
-                      Spacer(), // Balancea el espacio después del botón
-                    ]
-                  ),
-                  SizedBox(height: 16),
-                  _widgetTextfieldSearch()
-                ],
-              ),
-            ),
-          ),
-        ),
+        appBar: _widgetAppBar(context),
         drawer: _widgetDrawer(context),
         body: SafeArea(
           child: MultiBlocListener(
@@ -119,6 +77,52 @@ class CatalogListScreen extends StatelessWidget {
       Navigator.of(context).pop();
       CustomSnackBar.show(context, message: state.message);
     }
+  }
+
+  PreferredSize _widgetAppBar(BuildContext context){
+    return PreferredSize(
+      preferredSize: Size.fromHeight(170),
+      child: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        automaticallyImplyLeading: false,
+        bottom: TabBar(
+            isScrollable: true,
+            tabs: [
+              Tab(text: "Smartphone")
+            ]
+        ),
+        flexibleSpace: SafeArea(
+          child: Column(
+            children: [
+              Row(
+                  children: [
+                    _widgetMenuDrawer(),
+                    Spacer(), // Empuja el botón hacia el centro horizontal
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, "ecommerce/client/address/map");
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Elija su dirección",
+                          ),
+                          SizedBox(width: 8),
+                          Icon(Icons.place)
+                        ],
+                      ),
+                    ),
+                    Spacer(), // Balancea el espacio después del botón
+                  ]
+              ),
+              SizedBox(height: 16),
+              _widgetTextfieldSearch()
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _widgetItemProduct(Map<String, String> product){

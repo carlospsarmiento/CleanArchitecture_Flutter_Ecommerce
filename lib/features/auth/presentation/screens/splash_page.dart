@@ -46,7 +46,7 @@ class _SplashPageState extends State<SplashPage> {
   void _listenAuthCubit(BuildContext context, AuthState state){
     if(state is AuthCheckUserLoggedSuccessState){
       if(state.userLogged!=null){
-        Navigator.pushNamedAndRemoveUntil(context, 'ecommerce/catalog/list', (route) => false);
+        Navigator.pushNamedAndRemoveUntil(context, 'ecommerce/client/catalog/list', (route) => false);
       }
       else{
         Navigator.pushNamedAndRemoveUntil(context, 'auth/login', (route) => false);
