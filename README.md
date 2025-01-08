@@ -2,9 +2,9 @@
 ### 🚀  Introduction
 
 This app follow clean architecture proposed By Uncle Bob I used BloC as state management to improve widget rebuilding performance.  
-  
-  
-  
+
+<br>
+
 ### 🖼️  Screenshots
 
 | Splash Screen         | Login Screen            | Register Screen         | 
