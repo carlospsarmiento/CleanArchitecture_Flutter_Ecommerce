@@ -2,6 +2,7 @@ import 'package:app_flutter/shared/domain/entity/user.dart';
 
 class UserMapper{
 
+  /*
   static Map<String,dynamic> toJson(User user) => {
     "id": user.id,
     "name": user.name,
@@ -22,4 +23,5 @@ class UserMapper{
     password: json["password"],
     sessionToken: json["session_token"],
   );
+   */
 }

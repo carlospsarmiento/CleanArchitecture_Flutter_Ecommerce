@@ -8,6 +8,7 @@ class ApiEndpoints {
   static const String getAllUsers = "/api/users/getAll";
 
   // Ecommerce Endpoints
+  static const String getAllCategories = "/api/categories/getAll";
   //static const String getProducts = "/api/products";
   //static const String getProductDetails = "/api/products/{id}";
 }

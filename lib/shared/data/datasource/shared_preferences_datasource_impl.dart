@@ -1,6 +1,6 @@
 import 'dart:convert';
-
 import 'package:app_flutter/core/errors/exception.dart';
+import 'package:app_flutter/core/preferences/app_preferences.dart';
 import 'package:app_flutter/shared/data/datasource/shared_preferences_datasource.dart';
 import 'package:app_flutter/shared/data/model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,7 +15,7 @@ class SharedPreferencesDatasourceImpl implements SharedPreferencesDatasource{
   Future<bool> saveUserLogged(UserModel user) async{
     try{
       final userJson = jsonEncode(user.toJson());
-      bool saved = await _sharedPreferences.setString("userLogged", userJson);
+      bool saved = await _sharedPreferences.setString(AppPreferences.userLogged, userJson);
       return saved;
     }
     catch(e){
@@ -26,7 +26,7 @@ class SharedPreferencesDatasourceImpl implements SharedPreferencesDatasource{
   @override
   Future<bool> removeUserLogged() async {
     try{
-     bool deleted = await _sharedPreferences.remove("userLogged");
+     bool deleted = await _sharedPreferences.remove(AppPreferences.userLogged);
      return deleted;
     }
     catch(e){
@@ -37,7 +37,7 @@ class SharedPreferencesDatasourceImpl implements SharedPreferencesDatasource{
   @override
   Future<UserModel?> getUserLogged() async{
     try{
-      final userJson = _sharedPreferences.getString("userLogged");
+      final userJson = _sharedPreferences.getString(AppPreferences.userLogged);
       if (userJson == null) return null;
       return UserModel.fromJson(jsonDecode(userJson));
     }

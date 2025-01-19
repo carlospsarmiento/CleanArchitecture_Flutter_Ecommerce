@@ -4,7 +4,6 @@ import 'package:app_flutter/shared/domain/entity/user.dart';
 import 'package:dartz/dartz.dart';
 
 class GetUserLogged{
-
   final AuthRepository _repository;
 
   GetUserLogged(this._repository);

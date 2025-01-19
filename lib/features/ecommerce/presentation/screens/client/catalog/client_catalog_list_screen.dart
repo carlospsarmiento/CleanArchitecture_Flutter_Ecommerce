@@ -1,3 +1,4 @@
+import 'package:app_flutter/features/ecommerce/presentation/widgets/categories_list_widget.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_cubit.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_state.dart';
 import 'package:app_flutter/shared/presentation/widgets/custom_progress_dialog.dart';
@@ -22,11 +23,24 @@ class ClientCatalogListScreen extends StatelessWidget {
       {'name': 'Producto 6', 'image': 'https://via.placeholder.com/150'},
     ];
 
+    return Scaffold(
+      body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                CategoriesListWidget()
+              ],
+            ),
+          )
+      ),
+    );
+
+    /*
     return DefaultTabController(
       length: 1,
       child: Scaffold(
         key: _scaffoldKey,
-        appBar: _widgetAppBar(context),
+        //appBar: _widgetAppBar(context),
         drawer: _widgetDrawer(context),
         body: SafeArea(
           child: MultiBlocListener(
@@ -57,6 +71,7 @@ class ClientCatalogListScreen extends StatelessWidget {
         ),
       ),
     );
+     */
   }
 
   void _listenAuthCubit(BuildContext context, AuthState state){
@@ -79,6 +94,7 @@ class ClientCatalogListScreen extends StatelessWidget {
     }
   }
 
+  /*
   PreferredSize _widgetAppBar(BuildContext context){
     return PreferredSize(
       preferredSize: Size.fromHeight(170),
@@ -124,6 +140,7 @@ class ClientCatalogListScreen extends StatelessWidget {
       ),
     );
   }
+   */
 
   Widget _widgetItemProduct(Map<String, String> product){
     return Card(
