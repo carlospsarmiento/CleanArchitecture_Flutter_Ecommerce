@@ -1,4 +1,5 @@
-import 'package:app_flutter/features/ecommerce/presentation/widgets/categories_list_widget.dart';
+import 'package:app_flutter/core/routes/app_routes.dart';
+import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/widgets/categories_list_widget.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_cubit.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_state.dart';
 import 'package:app_flutter/shared/presentation/widgets/custom_progress_dialog.dart';
@@ -6,8 +7,8 @@ import 'package:app_flutter/shared/presentation/widgets/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ClientCatalogListScreen extends StatelessWidget {
-  ClientCatalogListScreen({super.key});
+class ClientHomeScreen extends StatelessWidget {
+  ClientHomeScreen({super.key});
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -24,12 +25,22 @@ class ClientCatalogListScreen extends StatelessWidget {
     ];
 
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: _widgetDrawer(context),
       body: SafeArea(
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                CategoriesListWidget()
-              ],
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                children: [
+                  SizedBox(height: 16),
+                  _headerSection(context),
+                  SizedBox(height: 16),
+                  _searchSection(context),
+                  SizedBox(height: 16),
+                  CategoriesListWidget(),
+                ],
+              ),
             ),
           )
       ),
@@ -74,6 +85,76 @@ class ClientCatalogListScreen extends StatelessWidget {
      */
   }
 
+  Widget _searchSection(BuildContext context){
+    return TextField(
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Theme.of(context).colorScheme.surfaceContainer,
+          hintText: 'Buscar productos...',
+          hintStyle: TextStyle(
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
+          prefixIcon: Icon(
+            Icons.search,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+          contentPadding: const EdgeInsets.symmetric(vertical: 12),
+        ),
+        onChanged: (value) {
+          print('Buscando: $value');
+        },
+    );
+  }
+
+  Widget _headerSection(BuildContext context){
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GestureDetector(
+            onTap: _openDrawer,
+            child: CircleAvatar(
+              radius: 20,
+              backgroundImage: NetworkImage(
+                "https://www.lomas.pe/cdn/shop/files/IMG_0934.jpg"
+              ),
+            ),
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'Ubicación actual', // Cambiar por la ubicación real
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
+                Text(
+                  'Lima, Perú', // Ejemplo de ubicación
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+            },
+            icon: Icon(
+              Icons.shopping_cart_outlined,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
+          ),
+        ],
+    );
+  }
+
   void _listenAuthCubit(BuildContext context, AuthState state){
     if(state is AuthLogoutLoadingState){
       showDialog(
@@ -85,7 +166,7 @@ class ClientCatalogListScreen extends StatelessWidget {
 
     if (state is AuthLogoutSuccessState) {
       Navigator.of(context).pop();
-      Navigator.pushNamedAndRemoveUntil(context, 'auth/login', (route) => false);
+      Navigator.pushNamedAndRemoveUntil(context, AppRoutes.login, (route) => false);
     }
 
     if (state is AuthLogoutFailState) {

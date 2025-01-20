@@ -12,7 +12,7 @@ import 'package:app_flutter/features/ecommerce/data/datasource/category/category
 import 'package:app_flutter/features/ecommerce/data/repository/category_repository_impl.dart';
 import 'package:app_flutter/features/ecommerce/domain/repository/category_repository.dart';
 import 'package:app_flutter/features/ecommerce/domain/usecase/getall_categories.dart';
-import 'package:app_flutter/features/ecommerce/presentation/bloc/categories/categories_display_cubit.dart';
+import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/bloc/categories_display_cubit.dart';
 import 'package:app_flutter/shared/data/datasource/shared_preferences_datasource.dart';
 import 'package:app_flutter/shared/data/datasource/shared_preferences_datasource_impl.dart';
 import 'package:app_flutter/features/auth/domain/usecase/logout_user.dart';

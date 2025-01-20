@@ -1,3 +1,4 @@
+import 'package:app_flutter/core/routes/app_routes.dart';
 import 'package:app_flutter/features/auth/presentation/widgets/login_banner.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_cubit.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_state.dart';
@@ -69,7 +70,7 @@ class LoginScreen extends StatelessWidget {
 
     if (state is AuthLoginSuccessState) {
       Navigator.of(context).pop();
-      Navigator.pushNamedAndRemoveUntil(context, 'ecommerce/client/catalog/list', (route) => false);
+      Navigator.pushNamedAndRemoveUntil(context, AppRoutes.clientHome, (route) => false);
     }
 
     if (state is AuthLoginFailState) {
@@ -163,7 +164,7 @@ class LoginScreen extends StatelessWidget {
   Widget _widgetTextButtonSignUp(BuildContext context){
     return TextButton(
       onPressed: () {
-        Navigator.of(context).pushNamed("auth/register");
+        Navigator.of(context).pushNamed(AppRoutes.register);
       },
       style: TextButton.styleFrom(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
