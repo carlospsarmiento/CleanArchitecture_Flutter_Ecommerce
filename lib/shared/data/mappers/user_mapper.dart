@@ -11,6 +11,7 @@ class UserMapper {
       phone: model.phone??"",
       password: model.password,
       sessionToken: model.sessionToken,
+      image: model.image
     );
   }
 
@@ -23,6 +24,7 @@ class UserMapper {
       phone: entity.phone,
       password: entity.password,
       sessionToken: entity.sessionToken,
+      image: entity.image
     );
   }
 }

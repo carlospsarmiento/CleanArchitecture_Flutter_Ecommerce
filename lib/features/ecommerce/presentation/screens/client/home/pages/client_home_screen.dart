@@ -1,5 +1,6 @@
 import 'package:app_flutter/core/routes/app_routes.dart';
 import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/widgets/categories_list_widget.dart';
+import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/widgets/user_avatar_widget.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_cubit.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_state.dart';
 import 'package:app_flutter/shared/presentation/widgets/custom_progress_dialog.dart';
@@ -27,7 +28,9 @@ class ClientHomeScreen extends StatelessWidget {
     return Scaffold(
       key: _scaffoldKey,
       drawer: _widgetDrawer(context),
-      body: SafeArea(
+      body: BlocListener<AuthCubit, AuthState>(
+        listener: (context, state) => _listenAuthCubit(context, state),
+        child: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -43,6 +46,7 @@ class ClientHomeScreen extends StatelessWidget {
               ),
             ),
           )
+        ),
       ),
     );
 
@@ -114,14 +118,8 @@ class ClientHomeScreen extends StatelessWidget {
     return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          GestureDetector(
+          UserAvatarWidget(
             onTap: _openDrawer,
-            child: CircleAvatar(
-              radius: 20,
-              backgroundImage: NetworkImage(
-                "https://www.lomas.pe/cdn/shop/files/IMG_0934.jpg"
-              ),
-            ),
           ),
           Expanded(
             child: Column(

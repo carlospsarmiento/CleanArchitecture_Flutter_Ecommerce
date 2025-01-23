@@ -6,6 +6,7 @@ class User{
   String phone;
   String? password;
   String? sessionToken;
+  String? image;
 
   User({
     this.id,
@@ -14,6 +15,7 @@ class User{
     required this.email,
     required this.phone,
     required this.password,
-    this.sessionToken
+    this.sessionToken,
+    this.image
   });
 }

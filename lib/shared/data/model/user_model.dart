@@ -6,6 +6,7 @@ class UserModel{
   String? phone;
   String? password;
   String? sessionToken;
+  String? image;
 
   UserModel({
     this.id,
@@ -14,7 +15,8 @@ class UserModel{
     this.email,
     this.phone,
     this.password,
-    this.sessionToken
+    this.sessionToken,
+    this.image
   });
 
   factory UserModel.fromJson(Map<String,dynamic> json) {
@@ -25,7 +27,8 @@ class UserModel{
       email: json["email"],
       phone: json["phone"],
       password: json["password"],
-      sessionToken: json["session_token"]
+      sessionToken: json["session_token"],
+      image: json["image"]
     );
   }
 
@@ -36,6 +39,7 @@ class UserModel{
     "email": email,
     "phone": phone,
     "password": password,
-    "session_token": sessionToken
+    "session_token": sessionToken,
+    "image": image
   };
 }
