@@ -20,36 +20,7 @@ class SpecialOffersListWidget extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
           if (state is SpecialOffersLoadedState) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Ofertas Especiales',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        // Acción al presionar "Ver todas"
-                      },
-                      child: const Text(
-                        'Ver todas',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                _buildOffersList(state.offers),
-              ],
-            );
+            return _buildOffersList(state.offers);
           }
           if (state is SpecialOffersErrorState) {
             return Center(child: Text(state.message));
@@ -62,7 +33,7 @@ class SpecialOffersListWidget extends StatelessWidget {
 
   Widget _buildOffersList(List<SpecialOffer> offers) {
     return SizedBox(
-      height: 200,
+      height: 250,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: offers.length,

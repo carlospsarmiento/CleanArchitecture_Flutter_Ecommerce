@@ -64,13 +64,13 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
                       _searchSection(context),
                       SizedBox(height: 16),
                       CategoriesListWidget(),
-                      SizedBox(height: 24),
-                      _specialOffersSection(context),
-                      SizedBox(height: 24),
+                      SizedBox(height: 16),
+                      SpecialOffersListWidget(),
+                      SizedBox(height: 16),
                       _featuredProductsSection(context),
-                      SizedBox(height: 24),
+                      SizedBox(height: 16),
                       _popularProductsSection(context),
-                      SizedBox(height: 24),
+                      SizedBox(height: 16),
                     ],
                   ),
                 ),
@@ -200,34 +200,6 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
       Navigator.of(context).pop();
       CustomSnackBar.show(context, message: state.message);
     }
-  }
-
-  Widget _specialOffersSection(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text(
-              'Ofertas Especiales',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                // TODO: Navegar a la página de todas las ofertas
-              },
-              child: const Text('Ver todas'),
-            ),
-          ],
-        ),
-        const SizedBox(height: 8),
-        const SpecialOffersListWidget(),
-      ],
-    );
   }
 
   Widget _featuredProductsSection(BuildContext context) {
