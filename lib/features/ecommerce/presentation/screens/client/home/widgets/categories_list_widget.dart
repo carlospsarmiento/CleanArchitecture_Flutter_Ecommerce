@@ -5,6 +5,7 @@ import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/
 import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/bloc/categories_display_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CategoriesListWidget extends StatelessWidget {
   const CategoriesListWidget({super.key});
@@ -42,6 +43,7 @@ class CategoriesListWidget extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      /*
                       TextButton(
                         onPressed: () {
                           // Acción al presionar "Ver todos"
@@ -52,6 +54,11 @@ class CategoriesListWidget extends StatelessWidget {
                             color: Theme.of(context).colorScheme.primary,
                           ),
                         ),
+                      ),
+                      */
+                      TextButton(
+                        onPressed: () {},
+                        child: Text('Ver todo'),
                       ),
                     ],
                   ),
@@ -69,9 +76,39 @@ class CategoriesListWidget extends StatelessWidget {
                           child: Column(
                             children: [
                               // Imagen circular
-                              CircleAvatar(
-                                radius: 30,
-                                backgroundImage: NetworkImage("https://www.lomas.pe/cdn/shop/files/IMG_0934.jpg"),
+                              Container(
+                                width: 60,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Theme.of(context).colorScheme.surface,
+                                ),
+                                child: ClipOval(
+                                  child: category.image != null && category.image!.isNotEmpty
+                                      ? Image.network(
+                                          category.image!,
+                                          fit: BoxFit.cover,
+                                          errorBuilder: (context, error, stackTrace) => 
+                                            SvgPicture.asset(
+                                              'assets/svg/default_category.svg',
+                                              width: 30,
+                                              height: 30,
+                                              colorFilter: ColorFilter.mode(
+                                                Theme.of(context).colorScheme.primary,
+                                                BlendMode.srcIn,
+                                              ),
+                                            ),
+                                        )
+                                      : SvgPicture.asset(
+                                          'assets/svg/default_category.svg',
+                                          width: 30,
+                                          height: 30,
+                                          colorFilter: ColorFilter.mode(
+                                            Theme.of(context).colorScheme.primary,
+                                            BlendMode.srcIn,
+                                          ),
+                                        ),
+                                ),
                               ),
                               const SizedBox(height: 4.0),
                               // Nombre de la categoría

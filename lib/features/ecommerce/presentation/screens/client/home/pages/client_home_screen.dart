@@ -61,8 +61,6 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
                       SizedBox(height: 24),
                       _popularProductsSection(context),
                       SizedBox(height: 24),
-                      _recommendedSection(context),
-                      SizedBox(height: 16),
                     ],
                   ),
                 ),
@@ -198,6 +196,7 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        /*
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -212,10 +211,11 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
               child: Text('Ver todo'),
             ),
           ],
-        ),
+        ),  
         SizedBox(height: 12),
+         */
         Container(
-          height: 180,
+          height: 150,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: 5,
@@ -302,7 +302,7 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
           children: [
             Text(
               'Productos Destacados',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -410,7 +410,7 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
           children: [
             Text(
               'Más Populares',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -488,116 +488,6 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
     );
   }
 
-  Widget _recommendedSection(BuildContext context) {
-    final List<Map<String, dynamic>> recommendedProducts = [
-      {
-        'name': 'Samsung 55" QLED 4K TV',
-        'price': 799.99,
-        'image': 'https://images.samsung.com/is/image/samsung/p6pim/latin/qn55q60bagxzp/gallery/latin-qled-q60b-qn55q60bagxzp-531834183'
-      },
-      {
-        'name': 'Dyson V15 Detect',
-        'price': 699.99,
-        'image': 'https://dyson-h.assetsadobe2.com/is/image/content/dam/dyson/images/products/primary/368731-01.png'
-      },
-      {
-        'name': 'GoPro HERO11 Black',
-        'price': 499.99,
-        'image': 'https://www.gopro.com/content/dam/help/hero11-black/product-images/hero11-black-camera.png'
-      },
-      {
-        'name': 'Bose QuietComfort 45',
-        'price': 329.99,
-        'image': 'https://assets.bose.com/content/dam/Bose_DAM/Web/consumer_electronics/global/products/headphones/qc45/product_silo_images/QC45_PDP_Gallery-01.png'
-      },
-    ];
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Recomendados para ti',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            TextButton(
-              onPressed: () {},
-              child: Text('Ver todo'),
-            ),
-          ],
-        ),
-        SizedBox(height: 12),
-        Container(
-          height: 140,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: recommendedProducts.length,
-            itemBuilder: (context, index) {
-              final product = recommendedProducts[index];
-              return Container(
-                width: 280,
-                margin: EdgeInsets.only(right: 16),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Theme.of(context).colorScheme.surface,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 8,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.horizontal(left: Radius.circular(12)),
-                      child: Image.network(
-                        product['image'],
-                        height: 140,
-                        width: 120,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              product['name'],
-                              style: Theme.of(context).textTheme.titleMedium,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            SizedBox(height: 8),
-                            Text(
-                              '\$${product['price']}',
-                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _widgetItemProduct(Map<String, String> product){
     return Card(
       //elevation: 4,
@@ -631,51 +521,6 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _widgetMenuDrawer() {
-    return GestureDetector(
-      //onTap: _con.openDrawer,
-      child: Container(
-        //margin: EdgeInsets.only(left: 16),
-        alignment: Alignment.centerLeft,
-        child: IconButton(onPressed: _openDrawer, icon: Icon(Icons.menu)),
-        //child: Image.asset('assets/img/menu.png', width: 20, height: 20),
-      ),
-    );
-  }
-
-  Widget _widgetTextfieldSearch() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
-      child: TextField(
-        //onChanged: _con.onChangeText,
-        decoration: InputDecoration(
-            hintText: 'Buscar',
-            suffixIcon: Icon(
-                Icons.search,
-                color: Colors.grey[400]
-            ),
-            hintStyle: TextStyle(
-                fontSize: 17,
-                color: Colors.grey[500]
-            ),
-            enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25),
-                borderSide: BorderSide(
-                    //color: Colors.grey[300]
-                )
-            ),
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25),
-                borderSide: BorderSide(
-                   // color: Colors.grey[300]
-                )
-            ),
-            contentPadding: EdgeInsets.all(15)
-        ),
       ),
     );
   }

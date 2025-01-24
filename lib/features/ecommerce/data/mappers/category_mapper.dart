@@ -7,6 +7,7 @@ class CategoryMapper{
       id: model.id,
       name: model.name,
       description: model.description,
+      image: model.image,
     );
   }
 }
