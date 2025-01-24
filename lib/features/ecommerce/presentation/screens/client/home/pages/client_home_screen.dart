@@ -8,9 +8,16 @@ import 'package:app_flutter/shared/presentation/widgets/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ClientHomeScreen extends StatelessWidget {
+class ClientHomeScreen extends StatefulWidget {
   ClientHomeScreen({super.key});
+
+  @override
+  State<ClientHomeScreen> createState() => _ClientHomeScreenState();
+}
+
+class _ClientHomeScreenState extends State<ClientHomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -31,62 +38,76 @@ class ClientHomeScreen extends StatelessWidget {
       body: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) => _listenAuthCubit(context, state),
         child: SafeArea(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                children: [
-                  SizedBox(height: 16),
-                  _headerSection(context),
-                  SizedBox(height: 16),
-                  _searchSection(context),
-                  SizedBox(height: 16),
-                  CategoriesListWidget(),
-                ],
+          child: IndexedStack(
+            index: _selectedIndex,
+            children: [
+              // Home Page
+              SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 16),
+                      _headerSection(context),
+                      SizedBox(height: 16),
+                      _searchSection(context),
+                      SizedBox(height: 16),
+                      CategoriesListWidget(),
+                      SizedBox(height: 24),
+                      _specialOffersSection(context),
+                      SizedBox(height: 24),
+                      _featuredProductsSection(context),
+                      SizedBox(height: 24),
+                      _popularProductsSection(context),
+                      SizedBox(height: 24),
+                      _recommendedSection(context),
+                      SizedBox(height: 16),
+                    ],
+                  ),
+                ),
               ),
-            ),
-          )
-        ),
-      ),
-    );
-
-    /*
-    return DefaultTabController(
-      length: 1,
-      child: Scaffold(
-        key: _scaffoldKey,
-        //appBar: _widgetAppBar(context),
-        drawer: _widgetDrawer(context),
-        body: SafeArea(
-          child: MultiBlocListener(
-            listeners: [
-              BlocListener<AuthCubit,AuthState>(
-                listener: (context,state) =>  _listenAuthCubit(context,state),
-              )
+              // Categories Page
+              Center(child: Text('Categorías')),
+              // Cart Page
+              Center(child: Text('Carrito')),
+              // Profile Page
+              Center(child: Text('Perfil')),
             ],
-            child: TabBarView(
-                  children: [
-                    // Primer Tab: Grid de productos
-                    GridView.builder(
-                      padding: const EdgeInsets.all(16),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, // Número de columnas
-                        crossAxisSpacing: 16, // Espaciado horizontal
-                        mainAxisSpacing: 16, // Espaciado vertical
-                        childAspectRatio: 0.8, // Relación de aspecto para cada celda
-                      ),
-                      itemCount: products.length,
-                      itemBuilder: (context, index) {
-                        final product = products[index];
-                        return _widgetItemProduct(product);
-                      },
-                    ),
-                  ]),
           ),
         ),
       ),
+      bottomNavigationBar: NavigationBar(
+        onDestinationSelected: (int index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        selectedIndex: _selectedIndex,
+        destinations: const <NavigationDestination>[
+          NavigationDestination(
+            selectedIcon: Icon(Icons.home),
+            icon: Icon(Icons.home_outlined),
+            label: 'Inicio',
+          ),
+          NavigationDestination(
+            selectedIcon: Icon(Icons.category),
+            icon: Icon(Icons.category_outlined),
+            label: 'Categorías',
+          ),
+          NavigationDestination(
+            selectedIcon: Icon(Icons.shopping_cart),
+            icon: Icon(Icons.shopping_cart_outlined),
+            label: 'Carrito',
+          ),
+          NavigationDestination(
+            selectedIcon: Icon(Icons.person),
+            icon: Icon(Icons.person_outline),
+            label: 'Perfil',
+          ),
+        ],
+      ),
     );
-     */
   }
 
   Widget _searchSection(BuildContext context){
@@ -173,53 +194,409 @@ class ClientHomeScreen extends StatelessWidget {
     }
   }
 
-  /*
-  PreferredSize _widgetAppBar(BuildContext context){
-    return PreferredSize(
-      preferredSize: Size.fromHeight(170),
-      child: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-        automaticallyImplyLeading: false,
-        bottom: TabBar(
-            isScrollable: true,
-            tabs: [
-              Tab(text: "Smartphone")
-            ]
+  Widget _specialOffersSection(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Ofertas Especiales',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            TextButton(
+              onPressed: () {},
+              child: Text('Ver todo'),
+            ),
+          ],
         ),
-        flexibleSpace: SafeArea(
-          child: Column(
-            children: [
-              Row(
+        SizedBox(height: 12),
+        Container(
+          height: 180,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: 5,
+            itemBuilder: (context, index) {
+              return Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                margin: EdgeInsets.only(right: 16),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  gradient: LinearGradient(
+                    colors: [
+                      Theme.of(context).colorScheme.primaryContainer,
+                      Theme.of(context).colorScheme.primary,
+                    ],
+                  ),
+                ),
+                child: Stack(
                   children: [
-                    _widgetMenuDrawer(),
-                    Spacer(), // Empuja el botón hacia el centro horizontal
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, "ecommerce/client/address/map");
-                      },
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Elija su dirección",
+                            '50% OFF',
+                            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                          SizedBox(width: 8),
-                          Icon(Icons.place)
+                          Text(
+                            'En productos seleccionados',
+                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                    Spacer(), // Balancea el espacio después del botón
-                  ]
-              ),
-              SizedBox(height: 16),
-              _widgetTextfieldSearch()
-            ],
+                  ],
+                ),
+              );
+            },
           ),
         ),
-      ),
+      ],
     );
   }
-   */
+
+  Widget _featuredProductsSection(BuildContext context) {
+    final List<Map<String, dynamic>> featuredProducts = [
+      {
+        'name': 'Samsung Galaxy S23',
+        'price': 999.99,
+        'image': 'https://images.samsung.com/is/image/samsung/p6pim/latin/2302/gallery/latin-galaxy-s23-s911-sm-s911bzgcgto-534848032'
+      },
+      {
+        'name': 'MacBook Air M2',
+        'price': 1299.99,
+        'image': 'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/macbook-air-midnight-select-20220606?wid=452&hei=420&fmt=jpeg&qlt=95'
+      },
+      {
+        'name': 'PlayStation 5',
+        'price': 499.99,
+        'image': 'https://gmedia.playstation.com/is/image/SIEPDC/ps5-product-thumbnail-01-en-14sep21'
+      },
+      {
+        'name': 'AirPods Pro',
+        'price': 249.99,
+        'image': 'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MQD83?wid=572&hei=572&fmt=jpeg'
+      },
+      {
+        'name': 'iPad Air',
+        'price': 599.99,
+        'image': 'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-air-select-wifi-blue-202203'
+      },
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Productos Destacados',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            TextButton(
+              onPressed: () {},
+              child: Text('Ver todo'),
+            ),
+          ],
+        ),
+        SizedBox(height: 12),
+        Container(
+          height: 220,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: featuredProducts.length,
+            itemBuilder: (context, index) {
+              final product = featuredProducts[index];
+              return Container(
+                width: 160,
+                margin: EdgeInsets.only(right: 16),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: Theme.of(context).colorScheme.surface,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 8,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+                      child: Image.network(
+                        product['image'],
+                        height: 120,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            product['name'],
+                            style: Theme.of(context).textTheme.titleMedium,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            '\$${product['price']}',
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _popularProductsSection(BuildContext context) {
+    final List<Map<String, dynamic>> popularProducts = [
+      {
+        'name': 'Nike Air Max 270',
+        'price': 149.99,
+        'image': 'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/skwgyqrbfzhu6uyeh0gg/air-max-270-shoes-2V5C4p.png'
+      },
+      {
+        'name': 'Apple Watch Series 8',
+        'price': 399.99,
+        'image': 'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MKUQ3_VW_34FR+watch-45-alum-midnight-nc-8s_VW_34FR_WF_CO'
+      },
+      {
+        'name': 'Sony WH-1000XM4',
+        'price': 349.99,
+        'image': 'https://www.sony.com/image/5d02da5df552836db894cead8a68f5f3'
+      },
+      {
+        'name': 'Nintendo Switch OLED',
+        'price': 349.99,
+        'image': 'https://assets.nintendo.com/content/dam/ncom/en_US/switch/site-design-update/hardware/switch/nintendo-switch-oled-model-white-set/gallery/image01'
+      },
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Más Populares',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            TextButton(
+              onPressed: () {},
+              child: Text('Ver todo'),
+            ),
+          ],
+        ),
+        SizedBox(height: 12),
+        GridView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 0.75,
+            crossAxisSpacing: 16,
+            mainAxisSpacing: 16,
+          ),
+          itemCount: popularProducts.length,
+          itemBuilder: (context, index) {
+            final product = popularProducts[index];
+            return Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Theme.of(context).colorScheme.surface,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 8,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+                    child: Image.network(
+                      product['image'],
+                      height: 160,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          product['name'],
+                          style: Theme.of(context).textTheme.titleMedium,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          '\$${product['price']}',
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _recommendedSection(BuildContext context) {
+    final List<Map<String, dynamic>> recommendedProducts = [
+      {
+        'name': 'Samsung 55" QLED 4K TV',
+        'price': 799.99,
+        'image': 'https://images.samsung.com/is/image/samsung/p6pim/latin/qn55q60bagxzp/gallery/latin-qled-q60b-qn55q60bagxzp-531834183'
+      },
+      {
+        'name': 'Dyson V15 Detect',
+        'price': 699.99,
+        'image': 'https://dyson-h.assetsadobe2.com/is/image/content/dam/dyson/images/products/primary/368731-01.png'
+      },
+      {
+        'name': 'GoPro HERO11 Black',
+        'price': 499.99,
+        'image': 'https://www.gopro.com/content/dam/help/hero11-black/product-images/hero11-black-camera.png'
+      },
+      {
+        'name': 'Bose QuietComfort 45',
+        'price': 329.99,
+        'image': 'https://assets.bose.com/content/dam/Bose_DAM/Web/consumer_electronics/global/products/headphones/qc45/product_silo_images/QC45_PDP_Gallery-01.png'
+      },
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Recomendados para ti',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            TextButton(
+              onPressed: () {},
+              child: Text('Ver todo'),
+            ),
+          ],
+        ),
+        SizedBox(height: 12),
+        Container(
+          height: 140,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: recommendedProducts.length,
+            itemBuilder: (context, index) {
+              final product = recommendedProducts[index];
+              return Container(
+                width: 280,
+                margin: EdgeInsets.only(right: 16),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: Theme.of(context).colorScheme.surface,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 8,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.horizontal(left: Radius.circular(12)),
+                      child: Image.network(
+                        product['image'],
+                        height: 140,
+                        width: 120,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              product['name'],
+                              style: Theme.of(context).textTheme.titleMedium,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              '\$${product['price']}',
+                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
 
   Widget _widgetItemProduct(Map<String, String> product){
     return Card(
