@@ -9,10 +9,16 @@ import 'package:app_flutter/features/auth/domain/usecase/login_user.dart';
 import 'package:app_flutter/features/auth/domain/usecase/signup_user.dart';
 import 'package:app_flutter/features/ecommerce/data/datasource/category/category_remote_datasource.dart';
 import 'package:app_flutter/features/ecommerce/data/datasource/category/category_remote_datasource_impl.dart';
+import 'package:app_flutter/features/ecommerce/data/datasource/special_offer/special_offer_remote_datasource.dart';
+import 'package:app_flutter/features/ecommerce/data/datasource/special_offer/special_offer_remote_datasource_impl.dart';
 import 'package:app_flutter/features/ecommerce/data/repository/category_repository_impl.dart';
+import 'package:app_flutter/features/ecommerce/data/repository/special_offer_repository_impl.dart';
 import 'package:app_flutter/features/ecommerce/domain/repository/category_repository.dart';
+import 'package:app_flutter/features/ecommerce/domain/repository/special_offer_repository.dart';
 import 'package:app_flutter/features/ecommerce/domain/usecase/getall_categories.dart';
+import 'package:app_flutter/features/ecommerce/domain/usecase/get_all_special_offers.dart';
 import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/bloc/categories_display_cubit.dart';
+import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/bloc/special_offers_cubit.dart';
 import 'package:app_flutter/shared/data/datasource/shared_preferences_datasource.dart';
 import 'package:app_flutter/shared/data/datasource/shared_preferences_datasource_impl.dart';
 import 'package:app_flutter/features/auth/domain/usecase/logout_user.dart';
@@ -36,10 +42,12 @@ Future<void> initDi() async{
   di.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSourceImpl(di()));
   di.registerLazySingleton<SharedPreferencesDatasource>( () => SharedPreferencesDatasourceImpl(di()));
   di.registerLazySingleton<CategoryRemoteDatasource>(() => CategoryRemoteDatasourceImpl(di()));
+  di.registerLazySingleton<SpecialOfferRemoteDataSource>(() => SpecialOfferRemoteDataSourceImpl(di()));
 
   // repositories
   di.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(di(), di()));
   di.registerLazySingleton<CategoryRepository>(() => CategoryRepositoryImpl(di()));
+  di.registerLazySingleton<SpecialOfferRepository>(() => SpecialOfferRepositoryImpl(di()));
 
   // use cases
   di.registerLazySingleton<LoginUser>(() => LoginUser(di()));
@@ -47,8 +55,10 @@ Future<void> initDi() async{
   di.registerLazySingleton<GetUserLogged>(() => GetUserLogged(di()));
   di.registerLazySingleton<SignupUser>(() => SignupUser(di()));
   di.registerLazySingleton<GetAllCategories>(() => GetAllCategories(di()));
+  di.registerLazySingleton<GetAllSpecialOffers>(() => GetAllSpecialOffers(di()));
 
   // cubit
   di.registerFactory(() => AuthCubit(di(), di(), di(), di()));
   di.registerFactory(() => CategoriesDisplayCubit(di()));
+  di.registerFactory(() => SpecialOffersCubit(di()));
 }

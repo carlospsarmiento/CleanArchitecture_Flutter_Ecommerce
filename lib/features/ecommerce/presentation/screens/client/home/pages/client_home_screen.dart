@@ -1,5 +1,9 @@
 import 'package:app_flutter/core/routes/app_routes.dart';
+import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/bloc/categories_display_cubit.dart';
+import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/bloc/special_offers_cubit.dart';
+import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/bloc/special_offers_state.dart';
 import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/widgets/categories_list_widget.dart';
+import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/widgets/special_offers_list_widget.dart';
 import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/widgets/user_avatar_widget.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_cubit.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_state.dart';
@@ -18,6 +22,12 @@ class ClientHomeScreen extends StatefulWidget {
 class _ClientHomeScreenState extends State<ClientHomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    //context.read<SpecialOffersCubit>().getAllSpecialOffers();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -196,71 +206,26 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        /*
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            const Text(
               'Ofertas Especiales',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              style: TextStyle(
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
             TextButton(
-              onPressed: () {},
-              child: Text('Ver todo'),
+              onPressed: () {
+                // TODO: Navegar a la página de todas las ofertas
+              },
+              child: const Text('Ver todas'),
             ),
           ],
-        ),  
-        SizedBox(height: 12),
-         */
-        Container(
-          height: 150,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: 5,
-            itemBuilder: (context, index) {
-              return Container(
-                width: MediaQuery.of(context).size.width * 0.8,
-                margin: EdgeInsets.only(right: 16),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  gradient: LinearGradient(
-                    colors: [
-                      Theme.of(context).colorScheme.primaryContainer,
-                      Theme.of(context).colorScheme.primary,
-                    ],
-                  ),
-                ),
-                child: Stack(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '50% OFF',
-                            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.onPrimary,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            'En productos seleccionados',
-                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              color: Theme.of(context).colorScheme.onPrimary,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
         ),
+        const SizedBox(height: 8),
+        const SpecialOffersListWidget(),
       ],
     );
   }
