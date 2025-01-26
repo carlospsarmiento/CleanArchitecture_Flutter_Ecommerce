@@ -1,5 +1,4 @@
 import 'package:app_flutter/core/network/api_endpoints.dart';
-import 'package:app_flutter/features/auth/domain/repository/auth_repository.dart';
 import 'package:dio/dio.dart';
 
 class DioClient{

@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:app_flutter/core/errors/failure.dart';
 import 'package:app_flutter/features/auth/domain/usecase/login_user.dart';
 import 'package:app_flutter/features/auth/domain/usecase/get_userlogged.dart';
 import 'package:app_flutter/features/auth/domain/usecase/logout_user.dart';
