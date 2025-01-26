@@ -1,8 +1,7 @@
 import 'package:app_flutter/core/di/di.dart';
-import 'package:app_flutter/features/ecommerce/domain/entity/category.dart';
 import 'package:app_flutter/features/ecommerce/domain/usecase/getall_categories.dart';
-import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/bloc/categories_display_cubit.dart';
-import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/bloc/categories_display_state.dart';
+import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/bloc/categories_display/categories_display_cubit.dart';
+import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/bloc/categories_display/categories_display_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,20 +19,9 @@ class CategoriesListWidget extends StatelessWidget {
             return const CircularProgressIndicator();
           }
           if(state is CategoriesLoaded){
-            /*
-            return Column(
-              children: [
-                _seeAll(),
-                const SizedBox(height: 16),
-                _categories(state.categories)
-              ],
-            );
-            */
-
             return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Título y botón "Ver todos"
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -43,19 +31,6 @@ class CategoriesListWidget extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      /*
-                      TextButton(
-                        onPressed: () {
-                          // Acción al presionar "Ver todos"
-                        },
-                        child: Text(
-                          'Ver todos',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        ),
-                      ),
-                      */
                       TextButton(
                         onPressed: () {},
                         child: Text('Ver todo'),
@@ -63,9 +38,8 @@ class CategoriesListWidget extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 8.0),
-                  // Lista horizontal de categorías
                   SizedBox(
-                    height: 100, // Altura para acomodar las imágenes y texto
+                    height: 100,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: state.categories.length,
@@ -75,7 +49,6 @@ class CategoriesListWidget extends StatelessWidget {
                           padding: const EdgeInsets.only(right: 16.0),
                           child: Column(
                             children: [
-                              // Imagen circular
                               Container(
                                 width: 60,
                                 height: 60,
@@ -130,20 +103,5 @@ class CategoriesListWidget extends StatelessWidget {
         }
       ),
     );
-  }
-
-  Widget _seeAll(){
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text("Categories"),
-
-      ],
-    );
-  }
-
-  Widget _categories(List<Category> categories){
-    print(categories);
-    return Text("Lista de categorias");
   }
 }

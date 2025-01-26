@@ -1,8 +1,6 @@
 import 'package:app_flutter/core/routes/app_routes.dart';
-import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/bloc/categories_display_cubit.dart';
-import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/bloc/special_offers_cubit.dart';
-import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/bloc/special_offers_state.dart';
 import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/widgets/categories_list_widget.dart';
+import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/widgets/featured_products_list_widget.dart';
 import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/widgets/special_offers_list_widget.dart';
 import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/widgets/user_avatar_widget.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_cubit.dart';
@@ -13,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ClientHomeScreen extends StatefulWidget {
-  ClientHomeScreen({super.key});
+  const ClientHomeScreen({super.key});
 
   @override
   State<ClientHomeScreen> createState() => _ClientHomeScreenState();
@@ -26,22 +24,10 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
   @override
   void initState() {
     super.initState();
-    //context.read<SpecialOffersCubit>().getAllSpecialOffers();
   }
 
   @override
   Widget build(BuildContext context) {
-
-    // Lista de productos hardcodeada
-    final List<Map<String, String>> products = [
-      {'name': 'Producto 1', 'image': 'https://http2.mlstatic.com/D_NQ_NP_818939-MPE70523887936_072023-O.webp'},
-      {'name': 'Producto 2', 'image': 'https://via.placeholder.com/150'},
-      {'name': 'Producto 3', 'image': 'https://via.placeholder.com/150'},
-      {'name': 'Producto 4', 'image': 'https://via.placeholder.com/150'},
-      {'name': 'Producto 5', 'image': 'https://via.placeholder.com/150'},
-      {'name': 'Producto 6', 'image': 'https://via.placeholder.com/150'},
-    ];
-
     return Scaffold(
       key: _scaffoldKey,
       drawer: _widgetDrawer(context),
@@ -67,7 +53,8 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
                       SizedBox(height: 16),
                       SpecialOffersListWidget(),
                       SizedBox(height: 16),
-                      _featuredProductsSection(context),
+                      //_featuredProductsSection(context),
+                      FeaturedProductsListWidget(),
                       SizedBox(height: 16),
                       _popularProductsSection(context),
                       SizedBox(height: 16),
@@ -155,13 +142,13 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'Ubicación actual', // Cambiar por la ubicación real
+                  'Ubicación actual',
                   style: Theme.of(context).textTheme.labelMedium?.copyWith(
                     color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
                 Text(
-                  'Lima, Perú', // Ejemplo de ubicación
+                  'Lima, Perú',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).colorScheme.primary,

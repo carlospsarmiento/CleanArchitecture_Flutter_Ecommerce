@@ -14,7 +14,7 @@ class SpecialOfferRepositoryImpl implements SpecialOfferRepository {
   @override
   Future<Either<Failure, List<SpecialOffer>>> getAll() async {
     try {
-      final result = await _remoteDataSource.listAll();
+      final result = await _remoteDataSource.getAll();
       return Right(result.map((e) => SpecialOfferMapper.toEntity(e)).toList());
     } on CustomHttpException catch (e) {
       return Left(CustomGenericFailure(

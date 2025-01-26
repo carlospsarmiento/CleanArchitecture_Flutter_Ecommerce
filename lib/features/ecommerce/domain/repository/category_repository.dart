@@ -3,5 +3,5 @@ import 'package:app_flutter/features/ecommerce/domain/entity/category.dart';
 import 'package:dartz/dartz.dart';
 
 abstract class CategoryRepository{
-  Future<Either<Failure,List<Category>>> listAll();
+  Future<Either<Failure,List<Category>>> getAll();
 }

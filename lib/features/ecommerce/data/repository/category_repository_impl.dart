@@ -13,9 +13,9 @@ class CategoryRepositoryImpl implements CategoryRepository{
   CategoryRepositoryImpl(this._categoryRemoteDatasource);
 
   @override
-  Future<Either<Failure, List<Category>>> listAll() async{
+  Future<Either<Failure, List<Category>>> getAll() async{
     try{
-      final result = await _categoryRemoteDatasource.listAll();
+      final result = await _categoryRemoteDatasource.getAll();
       return Right(result.map((e) => CategoryMapper.toEntity(e)).toList());
     }
     on CustomHttpException catch (e) {

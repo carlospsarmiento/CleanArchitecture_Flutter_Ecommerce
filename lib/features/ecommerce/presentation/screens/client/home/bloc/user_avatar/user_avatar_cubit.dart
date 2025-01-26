@@ -1,5 +1,5 @@
 import 'package:app_flutter/features/auth/domain/usecase/get_userlogged.dart';
-import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/bloc/user_avatar_state.dart';
+import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/bloc/user_avatar/user_avatar_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserAvatarCubit extends Cubit<UserAvatarState> {

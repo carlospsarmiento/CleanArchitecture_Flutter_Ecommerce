@@ -9,6 +9,6 @@ class GetAllCategories{
   GetAllCategories(this._repository);
 
   Future<Either<Failure,List<Category>>> call(){
-    return _repository.listAll();
+    return _repository.getAll();
   }
 }

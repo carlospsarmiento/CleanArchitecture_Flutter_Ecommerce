@@ -12,7 +12,7 @@ class CategoryRemoteDatasourceImpl implements CategoryRemoteDatasource{
   CategoryRemoteDatasourceImpl(this._client);
 
   @override
-  Future<List<CategoryModel>> listAll() async{
+  Future<List<CategoryModel>> getAll() async{
     try{
       final response = await _client.dio.get(ApiEndpoints.getAllCategories);
       if (response.statusCode != 200) {

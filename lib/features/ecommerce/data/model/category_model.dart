@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class CategoryModel {
   String? id;
   String name;
@@ -29,4 +27,3 @@ class CategoryModel {
 }
 
 List<CategoryModel> categoryModelListFromJson(List<dynamic> items) => List<CategoryModel>.from(items.map((x) => CategoryModel.fromJson(x)));
-//List<CategoryModel> categoryModelListFromJson(String str) => List<CategoryModel>.from(json.decode(str).map((x) => CategoryModel.fromJson(x)));
