@@ -1,4 +1,5 @@
 import 'package:app_flutter/core/di/di.dart';
+import 'package:app_flutter/core/routes/app_routes.dart';
 import 'package:app_flutter/features/ecommerce/domain/usecase/getall_categories.dart';
 import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/bloc/categories_display/categories_display_cubit.dart';
 import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/bloc/categories_display/categories_display_state.dart';
@@ -32,7 +33,9 @@ class CategoriesListWidget extends StatelessWidget {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(AppRoutes.clientCategories);
+                        },
                         child: Text('Ver todo'),
                       ),
                     ],

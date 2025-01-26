@@ -2,6 +2,7 @@ import 'package:app_flutter/core/di/di.dart';
 import 'package:app_flutter/core/notifications/firebase_notification_service.dart';
 import 'package:app_flutter/features/auth/presentation/screens/register_screen.dart';
 import 'package:app_flutter/features/ecommerce/presentation/screens/client/address/client_address_map_screen.dart';
+import 'package:app_flutter/features/ecommerce/presentation/screens/client/categories/pages/client_categories_screen.dart';
 import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/pages/client_home_screen.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_cubit.dart';
 import 'package:app_flutter/features/auth/presentation/screens/login_screen.dart';
@@ -58,6 +59,7 @@ class _MyAppState extends State<MyApp> {
           AppRoutes.login: (BuildContext context) => LoginScreen(),
           AppRoutes.register: (BuildContext context) => RegisterScreen(),
           AppRoutes.clientHome: (BuildContext context) => ClientHomeScreen(),
+          AppRoutes.clientCategories: (BuildContext context) => ClientCategoriesScreen(),
           AppRoutes.clientAddressMap : (BuildContext context) => ClientAddressMapScreen()
         },
 

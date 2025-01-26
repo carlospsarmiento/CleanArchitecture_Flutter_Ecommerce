@@ -1,8 +1,8 @@
-class Category{
-  String? id;
-  String name;
-  String description;
-  String? image;
+class Category {
+  final String? id;
+  final String name;
+  final String description;
+  final String? image;
 
   Category({
     this.id,
