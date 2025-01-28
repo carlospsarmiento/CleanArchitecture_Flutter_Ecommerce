@@ -13,4 +13,6 @@ class ApiEndpoints {
   static const String getFeaturedProducts = "/api/products/featured";
   //static const String getProducts = "/api/products";
   //static const String getProductDetails = "/api/products/{id}";
+
+  static String searchProducts(String name) => "/api/products/search?name=$name";
 }

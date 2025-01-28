@@ -22,7 +22,9 @@ import 'package:app_flutter/features/ecommerce/domain/repository/special_offer_r
 import 'package:app_flutter/features/ecommerce/domain/usecase/get_featured_products.dart';
 import 'package:app_flutter/features/ecommerce/domain/usecase/getall_categories.dart';
 import 'package:app_flutter/features/ecommerce/domain/usecase/get_all_special_offers.dart';
-import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/bloc/categories_display/categories_display_cubit.dart';
+import 'package:app_flutter/features/ecommerce/domain/usecase/search_products.dart';
+import 'package:app_flutter/features/ecommerce/presentation/bloc/categories_display/categories_display_cubit.dart';
+import 'package:app_flutter/features/ecommerce/presentation/bloc/product_search/product_search_cubit.dart';
 import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/bloc/featured_products/featured_products_cubit.dart';
 import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/bloc/special_offers/special_offers_cubit.dart';
 import 'package:app_flutter/shared/data/datasource/shared_preferences_datasource.dart';
@@ -64,11 +66,13 @@ Future<void> initDi() async{
   di.registerLazySingleton<SignupUser>(() => SignupUser(di()));
   di.registerLazySingleton<GetAllCategories>(() => GetAllCategories(di()));
   di.registerLazySingleton<GetAllSpecialOffers>(() => GetAllSpecialOffers(di()));
-    di.registerLazySingleton<GetFeaturedProducts>(() => GetFeaturedProducts(di()));
+  di.registerLazySingleton<GetFeaturedProducts>(() => GetFeaturedProducts(di()));
+  di.registerLazySingleton<SearchProducts>(() => SearchProducts(di()));
 
   // cubit
   di.registerFactory(() => AuthCubit(di(), di(), di(), di()));
   di.registerFactory(() => CategoriesDisplayCubit(di()));
   di.registerFactory(() => SpecialOffersCubit(di()));
   di.registerFactory(() => FeaturedProductsCubit(di()));
+  di.registerFactory(() => ProductSearchCubit(di()));
 }

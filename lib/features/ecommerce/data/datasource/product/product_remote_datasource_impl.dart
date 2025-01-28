@@ -34,4 +34,28 @@ class ProductRemoteDatasourceImpl implements ProductRemoteDatasource {
       throw CustomGenericException(message: e.toString());
     }
   }
+  
+  @override
+  Future<List<ProductModel>> searchProducts(String name) async {
+    try{
+      final response = await _client.dio.get(ApiEndpoints.searchProducts(name));
+      if (response.statusCode != 200) {
+        throw CustomHttpException(statusCode: response.statusCode);
+      }
+      ApiResponse<List<ProductModel>> result = ApiResponse.fromJson(
+        response.data,
+        (responseData) => (responseData as List<dynamic>)
+            .map((item) => ProductModel.fromJson(item))
+            .toList(),
+      );
+      if (result.success && result.data != null) {
+        return result.data!;
+      } else {
+        throw CustomApiException(message: result.message);
+      }
+    }
+    catch(e){
+      throw CustomGenericException(message: e.toString());
+    }
+  }
 }

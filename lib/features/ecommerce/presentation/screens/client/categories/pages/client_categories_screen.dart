@@ -1,8 +1,8 @@
 import 'package:app_flutter/core/di/di.dart';
 import 'package:app_flutter/features/ecommerce/domain/entity/category.dart';
 import 'package:app_flutter/features/ecommerce/domain/usecase/getall_categories.dart';
-import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/bloc/categories_display/categories_display_cubit.dart';
-import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/bloc/categories_display/categories_display_state.dart';
+import 'package:app_flutter/features/ecommerce/presentation/bloc/categories_display/categories_display_cubit.dart';
+import 'package:app_flutter/features/ecommerce/presentation/bloc/categories_display/categories_display_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

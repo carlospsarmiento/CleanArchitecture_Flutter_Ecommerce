@@ -27,4 +27,18 @@ class ProductRepositoryImpl implements ProductRepository {
       return Left(CustomGenericFailure(message: "Ocurrió un error. ${e.message}"));
     }
   }
+
+  @override
+  Future<Either<Failure, List<Product>>> searchProducts(String name) async {
+    try {
+      final result = await _productRemoteDatasource.searchProducts(name);
+      return Right(result.map((e) => ProductMapper.toEntity(e)).toList());
+    } on CustomHttpException catch (e) {
+      return Left(CustomGenericFailure(message: "Error del servidor (${e.statusCode}). Inténtalo más tarde."));
+    } on CustomApiException catch (e) {
+      return Left(CustomGenericFailure(message: e.message));
+    } on CustomGenericException catch (e) {
+      return Left(CustomGenericFailure(message: "Ocurrió un error. ${e.message}"));
+    }
+  }
 }

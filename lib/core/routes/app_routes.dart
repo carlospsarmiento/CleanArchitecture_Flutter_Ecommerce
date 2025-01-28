@@ -4,5 +4,6 @@ class AppRoutes {
   static const register = 'auth/register';
   static const clientHome = 'ecommerce/client/home';
   static const clientCategories = 'ecommerce/client/categories';
+  static const clientProductSearch = 'ecommerce/client/product/search';
   static const clientAddressMap = 'ecommerce/client/address/map';
 }

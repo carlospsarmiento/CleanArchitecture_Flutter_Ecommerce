@@ -4,6 +4,7 @@ import 'package:app_flutter/features/auth/presentation/screens/register_screen.d
 import 'package:app_flutter/features/ecommerce/presentation/screens/client/address/client_address_map_screen.dart';
 import 'package:app_flutter/features/ecommerce/presentation/screens/client/categories/pages/client_categories_screen.dart';
 import 'package:app_flutter/features/ecommerce/presentation/screens/client/home/pages/client_home_screen.dart';
+import 'package:app_flutter/features/ecommerce/presentation/screens/client/product_search/pages/client_product_search_screen.dart';
 import 'package:app_flutter/shared/presentation/bloc/auth_cubit.dart';
 import 'package:app_flutter/features/auth/presentation/screens/login_screen.dart';
 import 'package:app_flutter/features/auth/presentation/screens/splash_page.dart';
@@ -60,6 +61,7 @@ class _MyAppState extends State<MyApp> {
           AppRoutes.register: (BuildContext context) => RegisterScreen(),
           AppRoutes.clientHome: (BuildContext context) => ClientHomeScreen(),
           AppRoutes.clientCategories: (BuildContext context) => ClientCategoriesScreen(),
+          AppRoutes.clientProductSearch: (BuildContext context) => ClientProductSearchScreen(),
           AppRoutes.clientAddressMap : (BuildContext context) => ClientAddressMapScreen()
         },
 

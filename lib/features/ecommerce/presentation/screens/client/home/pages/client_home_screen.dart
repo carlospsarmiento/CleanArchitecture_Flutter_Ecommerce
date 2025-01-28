@@ -103,27 +103,33 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
   }
 
   Widget _searchSection(BuildContext context){
-    return TextField(
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: Theme.of(context).colorScheme.surfaceContainer,
-          hintText: 'Buscar productos...',
-          hintStyle: TextStyle(
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
+    return GestureDetector(
+      onTap: (){
+        Navigator.pushNamed(context, AppRoutes.clientProductSearch);
+      },
+      child: TextField(
+          enabled: false,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Theme.of(context).colorScheme.surfaceContainer,
+            hintText: 'Buscar productos...',
+            hintStyle: TextStyle(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+            prefixIcon: Icon(
+              Icons.search,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+            ),
+            contentPadding: const EdgeInsets.symmetric(vertical: 12),
           ),
-          prefixIcon: Icon(
-            Icons.search,
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
-          ),
-          contentPadding: const EdgeInsets.symmetric(vertical: 12),
-        ),
-        onChanged: (value) {
-          //print('Buscando: $value');
-        },
+          onChanged: (value) {
+            //print('Buscando: $value');
+          },
+      ),
     );
   }
 
