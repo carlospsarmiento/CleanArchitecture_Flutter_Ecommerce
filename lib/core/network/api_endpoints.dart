@@ -1,5 +1,6 @@
 class ApiEndpoints {
-  static const String baseUrl = "https://f2mrv4dr-3000.brs.devtunnels.ms";
+  //static const String baseUrl = "https://f2mrv4dr-3000.brs.devtunnels.ms"; // local
+  static const String baseUrl = "https://backend-node-ecommerce-i5u5.onrender.com"; // render
 
   // Auth Endpoints
   static const String login = "/api/users/login";
